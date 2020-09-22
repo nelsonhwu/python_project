@@ -128,14 +128,21 @@ class Message(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
 
-
-
 class Comment(models.Model):
     comment = models.TextField()
     message = models.ForeignKey(Message, related_name="comments", on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE)
     # parent_id = models.ForeignKey(Parent, related_name="parent_comments", on_delete=models.CASCADE)
     # student_id = models.ForeignKey(Student, related_name="student_comments", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = UserManager()
+
+class Image(models.Model):
+    title = models.CharField(max_length=255)
+    picture = models.ImageField(upload_to="main/static/img")
+    submission = models.ForeignKey(Project, related_name="images", on_delete=models.CASCADE)
+    submitter = models.ForeignKey(User, related_name='submitted_images', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
