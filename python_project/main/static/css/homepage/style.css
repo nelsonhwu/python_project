@@ -1,0 +1,17 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    margin: 10px auto;
+    padding: 10px;
+    width: 950px;
+    height: auto;
+    border: black solid 1px;
+    background-color: skyblue;
+}
+.body{
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+}
