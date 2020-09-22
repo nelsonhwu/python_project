@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Welcome, PLACEHOLDER</h1>
+    <h1>Welcome, {{user.first_name}}</h1>
     <a href="#">Logout</a>
     <hr>
     <div id="navigation">
@@ -21,14 +21,14 @@
     <div id="content">
         <h1>Class Name</h1>
         <p>Class Description:</p>
-        <p>Class time: {this_class.schedule_day} at {this_class.schedule_time}</p>
-        <p>Start Date: {this_class.start_date}</p>
-        <p>End Date:: {this_class.end_date}</p>
+        <p>Class time: {{this_class.schedule_day}} at {{this_class.schedule_time}}</p>
+        <p>Start Date: {{this_class.start_date}}</p>
+        <p>End Date:: {{this_class.end_date}}</p>
     </div>
     <div id="projects">
         <h3>Assigned Projects:</h3>
         {% for project in this_class.course.all %}
-            <a href="#">{project.title}</a>
+            <a href="#">{{project.title}}</a>
         {% endfor %}
 
         {% if user.access_level == teacher_level %}
@@ -47,7 +47,7 @@
     <div id="students">
         <h3>Students: </h3>
         {% for student in this_class.parent_classes.all %}
-            <a href="#">{student.first_name} {student.last_name}</a>
+            <a href="#">{{student.first_name}} {{student.last_name}}</a>
         {% endfor %}
 
         {% if user.access_level == teacher_level %}
@@ -55,7 +55,7 @@
             <form action="/add_student/{{this_class.id}}" method="post">
                 <select name="list_of_students" id="list_of_students">
                     {% for student in all_students %}
-                        <option value="{{student.id}}">{student.first_name} {student.last_name}</option>
+                        <option value="{{student.id}}">{{student.first_name}} {{student.last_name}}</option>
                     {% endfor %}
                 </select>
                 <input type="submit" value="Add Student">
