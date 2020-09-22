@@ -11,7 +11,7 @@ class UserManager(models.Manager):
         NAME_REGEX = re.compile(r'^[a-zA-Z]')
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         PHONE_REGEX = re.compile(r'^\+?1?\d{9,15}$')
-        ADDRESS_REGEX = re.compile(r'\d{1,4}( \w+){1,5}, (.*), ( \w+){1,5}, (AZ|CA|CO|NH), [0-9]{5}(-[0-9]{4})?)
+        ADDRESS_REGEX = re.compile(r'\d{1,4}( \w+){1,5}, (.*), ( \w+){1,5}, (AZ|CA|CO|NH), [0-9]{5}(-[0-9]{4})?')
         for user in User.objects.all():
             if post_data['email'] == user.email:
                 errors['email_used'] = "Email is already registered. Please try logging in."
@@ -47,7 +47,7 @@ class UserManager(models.Manager):
         
         if len(post_data['phone']) < 10:
             errors['phone'] = 'Please enter your phone number with the area code.'
-        if not PHONE_REGEX.match(post_data['phone'])
+        if not PHONE_REGEX.match(post_data['phone']):
             errors['invalid_phone'] = 'Please enter valid phone number.'
         
         return errors
@@ -101,7 +101,7 @@ class Class(models.Model):
     subject = models.CharField(max_length=255)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
-    schedule_day  = models.CharField() #checkbox or dropdown
+    schedule_day  = models.CharField(max_length=255) #checkbox or dropdown
     schedule_time = models.TimeField()
     desc = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -109,7 +109,7 @@ class Class(models.Model):
     objects = UserManager()
     
 class Project(models.Model):
-    class = models.ForeignKey(Class, related_name="project_classes", on_delete=models.CASCADE)
+    course = models.ForeignKey(Class, related_name="project_classes", on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     due_date = models.DateTimeField()
     reviewed_by_user = models.ManyToManyField(User, related_name="user_has_reviewed")
