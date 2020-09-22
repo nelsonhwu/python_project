@@ -1,0 +1,10 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    margin: 0px auto;
+    padding: 0px;
+    width: 950px;
+    height: auto;
+}
