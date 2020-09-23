@@ -94,9 +94,10 @@ def success(request):
 def logout(request):
     request.session.clear()
     return redirect('/')
+
 def user(request):
-    logged_in_user = User.objects.get(id=request.session['user_id']
-        context={
+    logged_in_user = User.objects.get(id=request.session['user_id'])
+    context = {
         'logged_in_user':logged_in_user,
     }
     return render(request, 'user_info.html',context)

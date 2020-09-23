@@ -11,6 +11,7 @@ class UserManager(models.Manager):
         NAME_REGEX = re.compile(r'^[a-zA-Z]')
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         PHONE_REGEX = re.compile(r'^\+?1?\d{9,15}$')
+        
         if len(post_data['first_name']) < 2:
             errors['first_name'] = 'First name needs at least 2 characters.'
         if not NAME_REGEX.match(post_data['first_name']):
@@ -37,15 +38,18 @@ class UserManager(models.Manager):
         if len(post_data['city']) < 2:
             errors['city'] = "Please enter your city address."
 
+        if len(post_data['state']) < 2:
+            errors['state'] = "Please enter your state."
+
         if len(post_data['zip_code']) < 4:
             errors['zip_code'] = "Please enter your 5 digit zip code."
             
-        if len(post_data['phone']) < 10 and len(post_data['phone']) > 0:
+        if len(post_data['phone']) > 0 and len(post_data['phone']) < 10:
             errors['phone'] = 'Please enter your phone number with the area code.'
-        if not PHONE_REGEX.match(post_data['phone']):
+        if len(post_data['phone']) > 0 and not PHONE_REGEX.match(post_data['phone']):
             errors['invalid_phone'] = 'Please enter valid phone number.'
         return errors
-          
+
     def login_validation(self, post_data):
         errors = {}
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -84,6 +88,8 @@ class User(models.Model):
     phone = models.IntegerField(blank=True, null=True)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length = 255)
+    # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True) recursion error
+    profile_image = models.ImageField(upload_to='profile_image', blank=True, null=True, default="profile1.png")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
