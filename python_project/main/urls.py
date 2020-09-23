@@ -5,7 +5,17 @@ from django.conf import settings
 
 urlpatterns = [
     path('', views.index),
+    path('add_project/<int:class_id>', views.add_project),
+    path('add_student/<int:class_id>', views.add_student),
+    path('class/<int:class_id>', views.class_render),
+    path('request_appointment', views.calendar),
+    path('register', views.register),
+    path('add_user', views.add_user),
+    path('login', views.login),
+    path('log_in', views.log_in),
+    path('success', views.success),
     path('logout', views.logout),
+    path('user_info',views.user),
     path('project_detail/<int:project_id>', views.project_detail),
     path('process_upload/<int:project_id>', views.process_upload),
     path('edit_account/<int:user_id>', views.edit_account),

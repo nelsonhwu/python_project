@@ -5,8 +5,112 @@ from datetime import date, datetime, timezone
 from django.contrib import messages
 from .forms import IamgeForm
 
-# def index(request):
-#     return HttpResponse("Python Project Basics Are Functioning")
+##########################################################################################################
+def index(request):
+    return render(request, "homepage.html")
+
+def add_project(request, class_id):
+    current_class = Class.objects.get(id=class_id)
+    title = request.POST['title']
+    due_date = request.POST['due_date']
+    desc = request.POST['desc']
+    new_project = Project.objects.create(
+        title = title, 
+        due_date = due_date, 
+        desc = desc
+    )
+    current_class.project_classes.add(new_project)
+    return redirect(f'/class/{class_id}')
+
+def add_student(request, class_id):
+    current_class = Class.objects.get(id=class_id)
+    new_student_id = request.POST['student.id']
+    new_student = User.objects.get(id=new_student_id)
+    current_class.parent_classes.add(new_student)
+    return redirect(f'/class/{class_id}')
+
+def class_render(request, class_id):
+    logged_in_user = User.obejcts.get(id=request.session['user_id'])
+    context={
+        "this_class" : Class.objects.get(id=class_id),
+        "user" : logged_in_user
+    }
+    return render(request, 'class.html', context)
+
+def calendar(request):
+    return render(request, 'calendar.html')
+def register(request):
+    return render(request, "register.html")
+
+def add_user(request):
+    errors = User.objects.registration_validator(request.POST)
+    if len(errors) > 0:
+        for msg in errors.values():
+            messages.error(request, msg)
+        return redirect('/register')
+    password = request.POST['password']
+    pw_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode()
+    new_user = User.objects.create(
+        first_name = request.POST['first_name'],
+        last_name = request.POST['last_name'],
+        email = request.POST['email'],
+        password = pw_hash,
+        street_address = request.POST['street_address'],
+        city = request.POST['city'],
+        state = request.POST['state'],
+        zip_code = request.POST['zip_code'],
+        phone = request.POST['phone'],
+        access_level = request.POST['access_level']
+    )
+    request.session['user_id'] = new_user.id
+    return redirect('/success')
+
+def login(request):
+    return render(request, "login.html")
+
+def log_in(request):
+    errors = User.objects.login_validation(request.POST)
+    if len(errors) > 0:
+        for msg in errors.values():
+            messages.error(request, msg)
+        return redirect('/login')
+    list_of_users = User.objects.filter(email=request.POST['email'])
+    if len(list_of_users) > 0:
+        user = list_of_users[0]
+        if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password.encode()):
+            request.session['user_id'] = user.id
+            return redirect('/user_info')
+        return redirect('/')
+
+def success(request):
+    if 'user_id' not in request.session:
+        return redirect('/')
+    logged_in_user = User.objects.get(id=request.session['user_id'])
+    print(logged_in_user.__dict__)
+    context = {
+        'logged_in_user' : logged_in_user,
+    }
+    return render(request, "success.html", context)
+
+def logout(request):
+    request.session.clear()
+    return redirect('/')
+
+def user(request):
+    logged_in_user = User.objects.get(id=request.session['user_id'])
+    context = {
+        'logged_in_user':logged_in_user,
+    }
+    return render(request, 'user_info.html',context)
+
+
+
+
+
+
+
+
+##########################################################################################################
 
 def edit_account(request, user_id):
     if "user_id" in request.session:
@@ -45,7 +149,7 @@ def process_edit_user(request, user_id):
                 messages.error(request, value, extra_tags="edit_err")
             return redirect("/edit_account")
         else:
-            for key in request.POST.keys()
+            for key in request.POST.keys():
                 updated_user = updata(key, user_id)
                 updated_user.save()
             success_message = "Profile updated successfully!"
@@ -88,9 +192,8 @@ def process_upload(request, project_id):
             context = {
                 "form" : form,
             }
-            return render(request, 'projectDetail.html', context)  
-    else: 
-        
+            return render(request, 'projectDetail.html', context) 
+
 
 def process_reviewed(request, project_id):
     logged_user = User.objects.get(id=request.session["user_id"])
@@ -123,7 +226,7 @@ def edit_project(request, project_id):
 
         
 def update_proj_func(post_field, cur_proj):
-    if len(request.POST[post_field]) !=0
+    if len(request.POST[post_field]) !=0:
         cur_proj[post_field] = request.POST[post_field]
         cur_proj.save()
         return cur_proj
@@ -137,7 +240,7 @@ def process_edit_project(request, project_id):
             messages.error(request, value, extra_tags="edit_proj_err")
         return redirect(f"/edit_project/{cur_proj.id}")
     else:
-        for key in request.POST.keys()
+        for key in request.POST.keys():
             cur_proj = update_proj_func(key, cur_proj)
             cur_proj.save()
         success_message = "Profile updated successfully!"
