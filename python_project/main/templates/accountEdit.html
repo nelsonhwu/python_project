@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Edit User</title>
+    </head>
+    <body>
+        <div id="navbar">
+            {# container for nav bar #}
+        </div>
+
+        <div id="rightcontent">
+            
+            <p><a href="/logout">Log out</a></p>
+            
+            <div>
+                <img id="main_img" src="" alt="">
+            </div>
+
+            <div>
+                <img id="profile_pic" width="200" height="200" src="{{logged_user.profile_image.url}}" alt="Pofile_Image">
+                <h2 id="user_name">Hello, {{logged_user.first_name}}</h2>
+            </div>
+        
+            <form action="/process_edit" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div>
+                    <label for="profile_image">Profile Picture: </label>
+                    <input type="file" name="profile_image" id="profile_image">
+                </div>
+                
+                <div>
+                    <label for="first_name">First Name: </label>
+                    <input type="text" name="first_name" id="first_name">
+                </div>
+
+                <div>
+                    <label for="last_name">Last Name: </label>
+                    <input type="text" name="last_name" id="last_name">
+                </div>
+
+                <div>
+                    <label for="email">Email: </label>
+                    <input type="email" name="Email" id="Email">
+                </div>
+
+                <div>
+                    <label for="street_address">Street: </label>
+                    <input type="text" name="street_address" id="street_address">
+                </div>
+
+                <div>
+                    <label for="city">city: </label>
+                    <input type="text" name="city" id="city">
+                </div>
+
+                <div>
+                    <label for="zip_code">Zip Code: </label>
+                    <input type="number" name="zip_code" id="zip_code">
+                </div>
+
+                <div>
+                    <label for="phone">Phone: </label>
+                    <input type="number" name="phone" id="phone">
+                </div>
+
+                <div>
+                    <label for="related_user">Put in your parent's User ID: </label>
+                    <input type="text" name="related_user" id="related_user">
+                </div>
+
+                <div>
+                    <label for="password">New Password: </label>
+                    <input type="password" name="password" id="password">
+                </div>
+
+                <div>
+                    <label for="confirm_password">Confirm New Password: </label>
+                    <input type="password" name="confirm_password" id="confirm_password">
+                </div>
+
+                <input type="submit" name="submit" id="submit" value="Update">
+                <button><a href="/edit_account">Cancle</a></button>
+            </form>
+        </div>
+        
+        <div id="message">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if "edit_err" in message.tags %}
+                    <li>{{message}}</li>
+                    {% endif %}
+                    {% if "success" in message.tags %}
+                    <li>{{message}}</li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+
+    </body>
+</html>
