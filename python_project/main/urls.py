@@ -16,7 +16,14 @@ urlpatterns = [
     path('success', views.success),
     path('logout', views.logout),
     path('user_info',views.user),
-    path('edit_class/<int:class_id>', views.edit_class),
-
+    path('class/<int:class_id>/edit', views.edit_class),
+    path('class/new', views.new_class),
+    path('class/create', views.create_class),
+    path('edit_class/<int:class_id>', views.edit_class_post),
+    path('image/all', views.image_block),
+    path('image/<int:image_id>', views.image_viewer),
+    path('image/<int:image_id>/add_message', views.add_message),
+    path('image/<int:image_id>/add_comment', views.add_comment),
+    path('image/<int:image_id>/delete/<int:message_id>', views.delete_message),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
