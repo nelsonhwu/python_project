@@ -11,47 +11,41 @@ class UserManager(models.Manager):
         NAME_REGEX = re.compile(r'^[a-zA-Z]')
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         PHONE_REGEX = re.compile(r'^\+?1?\d{9,15}$')
-        ADDRESS_REGEX = re.compile(r'\d{1,4}( \w+){1,5}, (.*), ( \w+){1,5}, (AZ|CA|CO|NH), [0-9]{5}(-[0-9]{4})?')
-        for user in User.objects.all():
-            if post_data['email'] == user.email:
-                errors['email_used'] = "Email is already registered. Please try logging in."
-
         if len(post_data['first_name']) < 2:
             errors['first_name'] = 'First name needs at least 2 characters.'
         if not NAME_REGEX.match(post_data['first_name']):
             errors['first_name_char'] = 'First name should contain only letters'
-        
+            
         if len(post_data['last_name']) < 2:
             errors['last_name'] = 'Last name needs at least 2 characters.'
         if not NAME_REGEX.match(post_data['last_name']):
             errors['last_name_char'] = 'Last name should contain only letters'
-        
+            
+        if len(post_data['email']) < 8:
+            errors['email_length'] = "Email too short!!"
         if not EMAIL_REGEX.match(post_data['email']):
-            errors['invalid_email'] = 'Invalid email! Try Again!'
+            errors['invalid_email'] = "Invalid email! Try again!"            
         
         if len(post_data['password']) < 8:
-            errors['password_length'] = 'Passwords need at least 8 characters.'
+            errors['pass_length'] = "Password needs to be 8 characters"
         if post_data['password'] != post_data['confirm_password']:
-            errors['invalid_password'] = 'Password does not match with Confirm Password.'
+            errors['invalid_password'] = "Password and confirm doesn't match!"
         
         if len(post_data['street_address']) < 2:
             errors['street_address'] = 'Your address needs at least 2 characters.'
-        if not ADDRESS_REGEX.match(post_data['street_address']):
-            errors['invalid_street_address'] =  'Please enter a valid Address.'
         
         if len(post_data['city']) < 2:
             errors['city'] = "Please enter your city address."
 
         if len(post_data['zip_code']) < 4:
             errors['zip_code'] = "Please enter your 5 digit zip code."
-        
-        if len(post_data['phone']) < 10:
+            
+        if len(post_data['phone']) < 10 and len(post_data['phone']) > 0:
             errors['phone'] = 'Please enter your phone number with the area code.'
         if not PHONE_REGEX.match(post_data['phone']):
             errors['invalid_phone'] = 'Please enter valid phone number.'
-        
         return errors
-
+          
     def login_validation(self, post_data):
         errors = {}
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
@@ -82,14 +76,14 @@ class UserManager(models.Manager):
 class User(models.Model):
     first_name = models.CharField(max_length = 255)
     last_name = models.CharField(max_length = 255)
-    email = models.CharField(max_length=255)
-    password = models.CharField(max_length = 255)
     street_address = models.CharField(max_length = 255, blank=True, null=True)
     city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
     zip_code = models.IntegerField()
+    access_level = models.CharField(max_length=255)
     phone = models.IntegerField(blank=True, null=True)
-    access_level = models.IntegerField()
-    related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+    email = models.CharField(max_length=255)
+    password = models.CharField(max_length = 255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
