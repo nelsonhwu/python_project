@@ -87,9 +87,6 @@ class UserManager(models.Manager):
                 errors['email'] = "You cannot enter your own email"
         return errors
 
-class User(models.Model):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
     def update_class_validation(self, post_data):
         errors={}
         if post_data['subject'] and len(post_data['subject']) < 2:
@@ -97,6 +94,9 @@ class User(models.Model):
         return errors
 
     def edit_account_validation(self, post_data):
+        NAME_REGEX = re.compile(r'^[a-zA-Z]')
+        EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+        PHONE_REGEX = re.compile(r'^\+?1?\d{9,15}$')
         errors={}
         if len(post_data['first_name']) != 0 and len(post_data['first_name']) < 2:
             errors['first_name'] = 'First name needs at least 2 characters.'
@@ -118,8 +118,8 @@ class User(models.Model):
         
         if len(post_data['street_address']) != 0 and len(post_data['street_address']) < 2:
             errors['street_address'] = 'Your address needs at least 2 characters.'
-        if len(post_data['street_address']) != 0 and not ADDRESS_REGEX.match(post_data['street_address']):
-            errors['invalid_street_address'] =  'Please enter a valid Address.'
+        #if len(post_data['street_address']) != 0 and not ADDRESS_REGEX.match(post_data['street_address']):
+        #    errors['invalid_street_address'] =  'Please enter a valid Address.'
         
         if len(post_data['city']) != 0 and len(post_data['city']) < 2:
             errors['city'] = "Please enter your city address."
@@ -166,9 +166,7 @@ class User(models.Model):
     phone = models.IntegerField(blank=True, null=True)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length = 255)
-    # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True) recursion error
     access_level = models.CharField(max_length = 255)
-    # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_image', blank=True, null=True, default="profile1.png")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -199,8 +197,6 @@ class Relationship(models.Model):
     
     
 class Class(models.Model):
-    # teacher = models.ManyToManyField(Teacher, related_name="teacher_classes")
-    # student = models.ManyToManyField(Student, related_name="student_classes")
     user = models.ManyToManyField('User', related_name="parent_classes")
     subject = models.CharField(max_length=255)
     start_date = models.DateTimeField()
@@ -227,9 +223,6 @@ class Project(models.Model):
 class Message(models.Model):
     message = models.TextField()
     user = models.ForeignKey(User, related_name="messages", on_delete=models.CASCADE)
-    # parent_id = models.ForeignKey(Teacher, related_name="parent_messages", on_delete=models.CASCADE)
-    # student_id = models.ForeignKey(Teacher, related_name="student_messages", on_delete=models.CASCADE)
-    # access_level = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
@@ -240,8 +233,6 @@ class Comment(models.Model):
     comment = models.TextField()
     message = models.ForeignKey(Message, related_name="comments", on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name="comments", on_delete=models.CASCADE)
-    # parent_id = models.ForeignKey(Parent, related_name="parent_comments", on_delete=models.CASCADE)
-    # student_id = models.ForeignKey(Student, related_name="student_comments", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
