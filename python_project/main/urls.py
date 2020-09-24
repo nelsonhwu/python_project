@@ -46,6 +46,9 @@ urlpatterns = [
     path('image/<int:image_id>/add_comment', views.add_comment),
     path('image/<int:image_id>/delete/<int:message_id>', views.delete_message),
 
+<<<<<<< HEAD
+>>>>>>> parent of 6745074... 09/24/2020
+=======
 >>>>>>> parent of 6745074... 09/24/2020
 
 ####################################################################

@@ -36,9 +36,12 @@ def class_render(request, class_id):
     return render(request, 'class.html', context)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 def calendar(request):
     return render(request, 'calendar.html')
 =======
+=======
+>>>>>>> parent of 6745074... 09/24/2020
 def new_class(request):
     return render(request, 'new_class.html')
 
@@ -106,6 +109,9 @@ def edit_class_post(request, class_id):
             current_class.desc = desc
             current_class.save()
         return redirect(f'/class/{class_id}')
+<<<<<<< HEAD
+>>>>>>> parent of 6745074... 09/24/2020
+=======
 >>>>>>> parent of 6745074... 09/24/2020
 
 def register(request):
@@ -372,6 +378,7 @@ def log_in(request):
         return redirect('/success')
     return('/login')
 
+<<<<<<< HEAD
 
 def add_relation(request):
     if 'user_id' not in request.session:
@@ -404,6 +411,8 @@ def add_relation(request):
     return render(request, "success.html", context)
 
 <<<<<<< HEAD
+=======
+>>>>>>> parent of 6745074... 09/24/2020
 def add_relation(request):
     if 'user_id' not in request.session:
         return('/')
@@ -428,7 +437,15 @@ def add_relation(request):
     else:
         return redirect("/success")
 
+<<<<<<< HEAD
 
+=======
+    print(logged_in_user.__dict__)
+    context = {
+        'logged_in_user' : logged_in_user,
+    }
+    return render(request, "success.html", context)
+>>>>>>> parent of 6745074... 09/24/2020
 
 
 
@@ -618,5 +635,9 @@ def index2(request):
     context = {
         'all_users' : all_users
     }
+<<<<<<< HEAD
+    return render(request, "index.html", context)
+>>>>>>> parent of 6745074... 09/24/2020
+=======
     return render(request, "index.html", context)
 >>>>>>> parent of 6745074... 09/24/2020
