@@ -37,6 +37,7 @@ def class_render(request, class_id):
 
 def calendar(request):
     return render(request, 'calendar.html')
+
 def register(request):
     return render(request, "register.html")
 
@@ -78,7 +79,8 @@ def log_in(request):
         if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password.encode()):
             request.session['user_id'] = user.id
         return redirect('/success')
-    return redirect('/')
+    return('/login')
+
 
 def success(request):
     if 'user_id' not in request.session:
