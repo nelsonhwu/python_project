@@ -9,6 +9,10 @@
     height: 768px;
     border: black solid 1px;
     background-image: linear-gradient(#e5c5c5,#b2b2b2);
+    width: 950px;
+    height: auto;
+    border: black solid 1px;
+    background-color: darkgray;
 }
 .nav{
     margin: 10px;
@@ -66,4 +70,10 @@ a:link, a:visited, a:hover, a:active{
     background-color: transparent;
     text-decoration: none;
     font-size: large;
+    
+}
+.register{
+    margin: 10px;
+    width: 500px;
+    text-align: right;
 }

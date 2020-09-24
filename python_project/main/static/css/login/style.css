@@ -58,4 +58,20 @@ a:link, a:visited, a:hover, a:active{
     background-color: transparent;
     text-decoration: none;
     font-size: large;
+    padding: 20px;
+    width: 950px;
+    height: 750px;
+    border: black solid 1px;
+}
+.nav{
+    padding: 0px 10px 0px 150px;
+    display: flex;
+    justify-content: space-between;
+}
+.login{
+    margin: 10px;
+    width: 400px;
+}
+.login button{
+    width: 400px;
 }

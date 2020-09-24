@@ -48,6 +48,7 @@ class UserManager(models.Manager):
             errors['phone'] = 'Please enter your phone number with the area code.'
         if len(post_data['phone']) > 0 and not PHONE_REGEX.match(post_data['phone']):
             errors['invalid_phone'] = 'Please enter valid phone number.'   
+            errors['invalid_phone'] = 'Please enter valid phone number.'
         return errors
 
     def login_validator(self, post_data):
@@ -65,12 +66,14 @@ class UserManager(models.Manager):
             errors['class'] = 'Please include a class.'
         #if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
         #    error['due_date'] = "Deadline cannot be in the past"
+        if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
+            errors['due_date'] = "Deadline cannot be in the past"
         return errors
     
     def class_validator(self, post_data):
         errors={}
-        if len(post_data['Subject']) < 2:
-            errors['Subject'] = 'Subject needs at least 2 characters.'
+        if len(post_data['subject']) < 2:
+            errors['subject'] = 'Subject needs at least 2 characters.'
         if not post_data['schedule_day']:
             errors['schedule_day'] = 'Please include a day for class to be held.'
         if not post_data['schedule_time']:
@@ -87,6 +90,15 @@ class UserManager(models.Manager):
 class User(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    def update_class_validation(self, post_data):
+        errors={}
+        if post_data['subject'] and len(post_data['subject']) < 2:
+            errors['subject'] = 'Subject needs at least 2 characters.'
+        return errors
+
+class User(models.Model):
+    first_name = models.CharField(max_length = 255)
+    last_name = models.CharField(max_length = 255)
     street_address = models.CharField(max_length = 255, blank=True, null=True)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=255)
@@ -95,6 +107,7 @@ class User(models.Model):
     phone = models.IntegerField(blank=True, null=True)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length = 255)
+    # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True) recursion error
     profile_image = models.ImageField(upload_to='profile_image', blank=True, null=True, default="profile1.png")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
