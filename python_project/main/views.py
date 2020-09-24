@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import User, Class, Project, Message, Comment, Image
+from .models import User, Class, Project, Message, Comment, Image, Relationship
 import bcrypt
 from datetime import date, datetime, timezone
 from django.contrib import messages
@@ -158,9 +158,11 @@ def success(request):
     if 'user_id' not in request.session:
         return redirect('/')
     logged_in_user = User.objects.get(id=request.session['user_id'])
-    print(logged_in_user.__dict__)
+
+    all_relationships = Relationship.objects.all()
     context = {
         'logged_in_user' : logged_in_user,
+        'all_relationships' : all_relationships,
     }
     return render(request, "success.html", context)
 

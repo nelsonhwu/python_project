@@ -16,6 +16,11 @@
         <li>Class:</li>
         <li>Parent:</li>
         <li>Account Type: {{logged_in_user.access_level}}</li>
+        {% for i in logged_in_user.from_users.all %}
+        <li>{{i.from_user.last_name}}</li>
+        {% endfor %}
+        <li>{{logged_in_user.from_users.all}}</li>
+        <li>{{logged_in_user.to_users.all}}</li>
     </ul>
 </body>
 </html>

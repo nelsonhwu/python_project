@@ -5,7 +5,7 @@ from django.conf import settings
 
 urlpatterns = [
 ####################################################################
-
+    path('add_relation', views.add_relation),
     path('class/<int:class_id>/edit', views.edit_class),
     path('class/new', views.new_class),
     path('class/create', views.create_class),

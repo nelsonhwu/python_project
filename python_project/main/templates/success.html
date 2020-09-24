@@ -58,13 +58,16 @@
                 <td>To_User: Name</td>
                 <td>Status of the two</td>
             </thead>
-            {% for relationship in all_relationships %}
+            {% for relationship in logged_in_user.from_users.all %}
             <tr>
                 <td>{{relationship.from_user.first_name}} {{relationship.from_user.last_name}}</td>
                 <td>{{relationship.to_user.first_name}} {{relationship.to_user.last_name}}</td>
                 <td>{{relationship.status}}</td>
             </tr>
+
             {% endfor %}
+
+
         </table>
 
     </div>
