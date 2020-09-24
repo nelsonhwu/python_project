@@ -3,7 +3,7 @@ from .models import User, Class, Project, Message, Comment, Image
 import bcrypt
 from datetime import date, datetime, timezone
 from django.contrib import messages
-# from .forms import ImageForm
+
 
 ##########################################################################################################
 
@@ -273,7 +273,29 @@ def user(request):
     }
     return render(request, 'user_info.html',context)
 
-
+def add_relation(request):
+    if 'user_id' not in request.session:
+        return('/')
+    logged_in_user = User.objects.get(id=request.session['user_id'])
+    errors = User.objects.related_person_validator(request.POST)
+    if len(errors) > 0:
+        for msg in errors.values():
+            messages.error(request, msg)
+        return redirect("/success")        
+    list_of_users = User.objects.filter(email=request.POST['email'])
+    print("Working Here1")
+    if len(list_of_users) > 0:
+        person_to_add = list_of_users[0]
+        print("%"*60)
+        print(person_to_add)
+        Relationship.objects.create(
+            from_user=logged_in_user,
+            to_user=person_to_add,
+            status=request.POST['status']
+        )
+        return redirect("/success")
+    else:
+        return redirect("/success")
 
 
 

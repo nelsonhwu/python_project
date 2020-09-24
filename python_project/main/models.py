@@ -141,6 +141,13 @@ class UserManager(models.Manager):
         if len(post_data['title']) < 2:
             errors['title'] = 'Title needs at least 2 characters.'
         return errors
+    
+    def related_person_validator(self, post_data):
+        errors={}
+        logged_in_user_email = post_data['logged_in_user_email']
+        if logged_in_user_email == post_data['email']:
+                errors['email'] = "You cannot enter your own email"
+        return errors
 
 class User(models.Model):
     first_name = models.CharField(max_length = 255)
@@ -153,11 +160,31 @@ class User(models.Model):
     zip_code = models.IntegerField()
     phone = models.IntegerField(blank=True, null=True)
     access_level = models.CharField(max_length = 255)
-    # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_image', blank=True, null=True, default="profile1.png")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
+    relationships = models.ManyToManyField('self', through='Relationship', symmetrical=False, related_name='related_to')
+    def __unicode__(self):
+        return self.first_name + " " + self.last_name
+    
+RELATIONSHIP_PARENT = 1
+RELATIONSHIP_GUARDIAN = 2
+RELATIONSHIP_STUDENT = 3
+RELATIONSHIP_SIBLING = 4
+RELATIONSHIP_STATUSES = (
+    (RELATIONSHIP_PARENT, 'Parent'),
+    (RELATIONSHIP_GUARDIAN, 'Guardian'),
+    (RELATIONSHIP_STUDENT, 'Student'),
+    (RELATIONSHIP_SIBLING, 'Sibling'),
+)
+
+class Relationship(models.Model):
+    from_user = models.ForeignKey(User, related_name='from_users', on_delete=models.CASCADE)
+    to_user = models.ForeignKey(User, related_name='to_users', on_delete=models.CASCADE)
+    status = models.IntegerField(choices=RELATIONSHIP_STATUSES)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 class Class(models.Model):
     # teacher = models.ManyToManyField(Teacher, related_name="teacher_classes")
