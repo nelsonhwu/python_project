@@ -5,8 +5,12 @@ from django.contrib import messages
 import bcrypt
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 from django.http import request
 ##########################################################################################################
+=======
+from .models import User,Class,Project,Message,Comment,Image
+>>>>>>> parent of f98ce8c... 09/23/2020
 =======
 from .models import User,Class,Project,Message,Comment,Image
 >>>>>>> parent of f98ce8c... 09/23/2020
@@ -42,9 +46,12 @@ def class_render(request, class_id):
     context={
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         'this_class' : Class.objects.get(id=class_id),
         'user' : logged_in_user
 =======
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
 =======
 >>>>>>> parent of f98ce8c... 09/23/2020
         this_class : Class.objects.get(id=class_id),
@@ -387,8 +394,13 @@ def log_in(request):
             request.session['user_id'] = user.id
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         return redirect('/success')
     return('/login')
+=======
+            return redirect('/success')
+        return redirect('/')
+>>>>>>> parent of f98ce8c... 09/23/2020
 =======
             return redirect('/success')
         return redirect('/')
@@ -402,6 +414,7 @@ def add_relation(request):
     if 'user_id' not in request.session:
         return('/')
     logged_in_user = User.objects.get(id=request.session['user_id'])
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     errors = User.objects.related_person_validator(request.POST)
@@ -428,12 +441,15 @@ def add_relation(request):
 >>>>>>> parent of f98ce8c... 09/23/2020
 =======
 >>>>>>> parent of f98ce8c... 09/23/2020
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
     print(logged_in_user.__dict__)
     context = {
         'logged_in_user' : logged_in_user,
     }
     return render(request, "success.html", context)
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 def add_relation(request):
@@ -639,6 +655,8 @@ def process_edit_project(request, project_id):
 =======
 =======
 >>>>>>> parent of f98ce8c... 09/23/2020
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
 def logout(request):
     request.session.clear()
     return redirect('/')
@@ -650,6 +668,9 @@ def user(request):
     }
     return render(request, 'user_info.html',context)
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of f98ce8c... 09/23/2020
+=======
 >>>>>>> parent of f98ce8c... 09/23/2020
 =======
 >>>>>>> parent of f98ce8c... 09/23/2020

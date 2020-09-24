@@ -32,6 +32,7 @@ urlpatterns = [
     path('logout', views.logout),
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     path('user_info',views.user),
     path('add_relation', views.add_relation),
 <<<<<<< HEAD
@@ -50,6 +51,9 @@ urlpatterns = [
     path('image/<int:image_id>/add_message', views.add_message),
     path('image/<int:image_id>/add_comment', views.add_comment),
     path('image/<int:image_id>/delete/<int:message_id>', views.delete_message),
+=======
+    path('user_info',views.user)
+>>>>>>> parent of f98ce8c... 09/23/2020
 =======
     path('user_info',views.user)
 >>>>>>> parent of f98ce8c... 09/23/2020
