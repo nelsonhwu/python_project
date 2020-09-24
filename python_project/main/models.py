@@ -48,7 +48,10 @@ class UserManager(models.Manager):
             errors['phone'] = 'Please enter your phone number with the area code.'
         if len(post_data['phone']) > 0 and not PHONE_REGEX.match(post_data['phone']):
 <<<<<<< HEAD
+<<<<<<< HEAD
             errors['invalid_phone'] = 'Please enter valid phone number.'   
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
 =======
 >>>>>>> parent of f98ce8c... 09/23/2020
             errors['invalid_phone'] = 'Please enter valid phone number.'
@@ -68,10 +71,15 @@ class UserManager(models.Manager):
         if not post_data['class']:
             errors['class'] = 'Please include a class.'
 <<<<<<< HEAD
+<<<<<<< HEAD
         #if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
         #    error['due_date'] = "Deadline cannot be in the past"
         if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
             errors['due_date'] = "Deadline cannot be in the past"
+=======
+        if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
+            error['due_date'] = "Deadline cannot be in the past"
+>>>>>>> parent of f98ce8c... 09/23/2020
 =======
         if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
             error['due_date'] = "Deadline cannot be in the past"
@@ -88,6 +96,7 @@ class UserManager(models.Manager):
             errors['schedule_day'] = 'Please include a time for class to be held.'
         return errors
 <<<<<<< HEAD
+<<<<<<< HEAD
     
     def related_person_validator(self, post_data):
         errors={}
@@ -238,6 +247,8 @@ class UserManager(models.Manager):
         if len(post_data['title']) < 2:
             errors['title'] = 'Title needs at least 2 characters.'
         return errors
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
 =======
 >>>>>>> parent of f98ce8c... 09/23/2020
 
@@ -253,7 +264,11 @@ class User(models.Model):
     email = models.CharField(max_length=255)
     password = models.CharField(max_length = 255)
 <<<<<<< HEAD
+<<<<<<< HEAD
     access_level = models.CharField(max_length = 255)
+=======
+    # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True) recursion error
+>>>>>>> parent of f98ce8c... 09/23/2020
 =======
     # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True) recursion error
 >>>>>>> parent of f98ce8c... 09/23/2020
@@ -261,6 +276,7 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
+<<<<<<< HEAD
 <<<<<<< HEAD
     relationships = models.ManyToManyField('self', through='Relationship', symmetrical=False, related_name='related_to')
     def __unicode__(self):
@@ -289,11 +305,16 @@ class Relationship(models.Model):
 class Class(models.Model):
     user = models.ManyToManyField('User', related_name="parent_classes")
 =======
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
 
 class Class(models.Model):
     # teacher = models.ManyToManyField(Teacher, related_name="teacher_classes")
     # student = models.ManyToManyField(Student, related_name="student_classes")
     user = models.ManyToManyField(User, related_name="parent_classes")
+<<<<<<< HEAD
+>>>>>>> parent of f98ce8c... 09/23/2020
+=======
 >>>>>>> parent of f98ce8c... 09/23/2020
     subject = models.CharField(max_length=255)
     start_date = models.DateTimeField()
