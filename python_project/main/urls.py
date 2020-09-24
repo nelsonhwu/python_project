@@ -16,9 +16,6 @@ urlpatterns = [
     path('image/<int:image_id>/add_comment', views.add_comment),
     path('image/<int:image_id>/delete/<int:message_id>', views.delete_message),
 
-
-####################################################################
-
     path('', views.index),
     path('add_project/<int:class_id>', views.add_project),
     path('add_student/<int:class_id>', views.add_student),
@@ -31,8 +28,8 @@ urlpatterns = [
     path('success', views.success),
     path('logout', views.logout),
     path('user_info',views.user),
+    path('user_homepage', views.user_homepage),
 
-####################################################################
     path('project_detail/<int:project_id>', views.project_detail),
     path('process_upload/<int:project_id>', views.process_upload),
     path('edit_account/<int:user_id>', views.edit_account),

@@ -84,6 +84,7 @@ class UserManager(models.Manager):
         return errors
 
     def edit_account_validation(self, post_data):
+        NAME_REGEX = re.compile(r'^[a-zA-Z]')
         errors={}
         if len(post_data['first_name']) != 0 and len(post_data['first_name']) < 2:
             errors['first_name'] = 'First name needs at least 2 characters.'

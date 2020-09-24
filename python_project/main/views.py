@@ -8,7 +8,15 @@ from django.contrib import messages
 ##########################################################################################################
 
 def index(request):
-    return render(request, "homepage.html")
+    if 'user_id' not in request.session:
+        return render(request, "homepage.html")
+    logged_in_user = User.objects.get(id=request.session['user_id'])
+    all_relationships = Relationship.objects.all()
+    context = {
+        'logged_in_user' : logged_in_user,
+        'all_relationships' : all_relationships,
+    }
+    return render(request, "success.html", context)
 
 def add_project(request, class_id):
     current_class = Class.objects.get(id=class_id)
@@ -151,8 +159,7 @@ def log_in(request):
         user = list_of_users[0]
         if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password.encode()):
             request.session['user_id'] = user.id
-            return redirect('/success')
-        return redirect('/')
+        return redirect('/success')
 
 def success(request):
     if 'user_id' not in request.session:
@@ -165,6 +172,9 @@ def success(request):
         'all_relationships' : all_relationships,
     }
     return render(request, "success.html", context)
+
+def user_homepage(request):
+    return render(request, "user_homepage.html")
 
 def logout(request):
     request.session.clear()
@@ -237,22 +247,6 @@ def add_user(request):
     request.session['user_id'] = new_user.id
     return redirect('/success')
 
-def login(request):
-    return render(request, "login.html")
-
-def log_in(request):
-    errors = User.objects.login_validation(request.POST)
-    if len(errors) > 0:
-        for msg in errors.values():
-            messages.error(request, msg)
-        return redirect('/login')
-    list_of_users = User.objects.filter(email=request.POST['email'])
-    if len(list_of_users) > 0:
-        user = list_of_users[0]
-        if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password.encode()):
-            request.session['user_id'] = user.id
-            return redirect('/user_info')
-        return redirect('/')
 
 def success(request):
     if 'user_id' not in request.session:
@@ -314,27 +308,8 @@ def edit_account(request, user_id):
         return render(request, "accountEdit.html", {"logged_user": logged_user})
     return redirect("/")
 
-def update (post_field, user_id):
-    # logged_user = User.objects.get(id=user_id)
-    # if post_field == "profile_image":
-    #     profile_image = request.FILES["profile_image"]
-    #     logged_user.profile_image.save(profile_image.name, profile_image)
-    #     logged_user.save()
-    #     return logged_user
-    if len(request.POST[post_field]) !=0 and post_field != "password":
-        logged_user[post_field] = request.POST[post_field]
-        logged_user.save()
-        return logged_user
 
-    elif len(request.POST[post_field]) !=0 and post_field == "password":
-        pw = request.POST[post_field]
-        pw_hash = bcrypt.hashpw(pw.encode("utf-8"), bcrypt.gensalt()).decode()
-        logged_user[post_field] = pw_hash
-        logged_user.save()
-        return logged_user
-
-
-def process_edit_user(request, user_id):
+def process_edit_user(request, user_id,):
         user_id = user_id
         logged_user = User.objects.get(id=user_id)
         errors = User.objects.edit_account_validation(request.POST)
@@ -349,7 +324,7 @@ def process_edit_user(request, user_id):
                 logged_user.profile_image.save(profile_image.name, profile_image)
                 logged_user.save()
             if len(request.POST["password"]) !=0:
-                pw = request.POST[post_field]
+                pw = request.POST['post_field']
                 pw_hash = bcrypt.hashpw(pw.encode("utf-8"), bcrypt.gensalt()).decode()
                 logged_user.password = pw_hash
                 logged_user.save()
@@ -380,8 +355,6 @@ def process_edit_user(request, user_id):
             success_message = "Profile updated successfully!"
             messages.success(request, success_message)
             return redirect(f"/edit_account/{logged_user.id}")
-
-
 
             success_message = "Profile updated successfully!"
             messages.success(request, success_message)
@@ -444,7 +417,6 @@ def process_unreviewed(request, project_id):
 
 def edit_project(request, project_id):
     if "user_id" in request.session:
-
         logged_user = User.objects.get(id=request.session["user_id"])
         cur_proj = Project.objects.get(id=project_id)
         all_classes = Class.objects.all()
