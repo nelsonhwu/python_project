@@ -20,11 +20,11 @@
     </div>
     <div id="image">
         <h3>{{this_image.title}}</h3>
-        <img src="{{this_image.picture}}" alt="{{this_image.id}}">
+        <img src="{{this_image.picture.url}}" alt="{{this_image.id}}">
         <a href="#">By: {{this_image.submitter.first_name}}</a>
     </div>
     <div id="wall">
-        <form action="/add_message" method="POST">
+        <form action="/image/{{this_image.id}/add_message" method="POST">
             {% csrf_token %}
             <label for="message">Post a Message</label><br>
             <textarea name="message" id="message" cols="50" rows="10"></textarea><br>

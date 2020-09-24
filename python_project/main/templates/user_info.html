@@ -6,14 +6,21 @@
     <title>user_info</title>
 </head>
 <body>
+    <p><a href="/">Home</a> | <a href="/edit_account/{{logged_in_user.id}}">Edit Profile</a> | <a href="/logout">Log out</a></p> 
 
     <ul>
         <li>Student Info:{{logged_in_user.first_name}}</li>
-        <li>ID:</li>
+        <li>ID: {{logged_in_user.id}}</li>
         <li>Email:{{logged_in_user.email}}</li>
         <li>Address:{{logged_in_user.street_address}} {{logged_in_user.city}} {{logged_in_user.zip_code}}</li>
         <li>Class:</li>
         <li>Parent:</li>
+        <li>Account Type: {{logged_in_user.access_level}}</li>
+        {% for i in logged_in_user.from_users.all %}
+        <li>{{i.from_user.last_name}}</li>
+        {% endfor %}
+        <li>{{logged_in_user.from_users.all}}</li>
+        <li>{{logged_in_user.to_users.all}}</li>
     </ul>
 </body>
 </html>
