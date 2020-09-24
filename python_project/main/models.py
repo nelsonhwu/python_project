@@ -83,6 +83,13 @@ class UserManager(models.Manager):
         if logged_in_user_email == post_data['email']:
                 errors['email'] = "You cannot enter your own email"
         return errors
+    
+    def related_person_validator(self, post_data):
+        errors={}
+        logged_in_user_email = post_data['logged_in_user_email']
+        if logged_in_user_email == post_data['email']:
+                errors['email'] = "You cannot enter your own email"
+        return errors
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)
@@ -95,6 +102,7 @@ class User(models.Model):
     phone = models.IntegerField(blank=True, null=True)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length = 255)
+    access_level = models.CharField(max_length = 255)
     profile_image = models.ImageField(upload_to='profile_image', blank=True, null=True, default="profile1.png")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -113,7 +121,7 @@ RELATIONSHIP_STATUSES = (
     (RELATIONSHIP_STUDENT, 'Student'),
     (RELATIONSHIP_SIBLING, 'Sibling'),
 )
-    
+
 class Relationship(models.Model):
     from_user = models.ForeignKey(User, related_name='from_users', on_delete=models.CASCADE)
     to_user = models.ForeignKey(User, related_name='to_users', on_delete=models.CASCADE)
@@ -122,7 +130,6 @@ class Relationship(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     def __repr__(self):
         return f'{self.from_user} - {self.to_user}'
-    
     
 class Class(models.Model):
     # teacher = models.ManyToManyField(Teacher, related_name="teacher_classes")
