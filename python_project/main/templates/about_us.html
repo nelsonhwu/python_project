@@ -6,6 +6,9 @@
     <title>Document</title>
 </head>
 <body>
+    <h1>Welcome, {{user.first_name}}</h1>
+    <a href="/logout">Logout</a>
+    <hr>
     <div id="navigation">
         <a href="#">Home</a>
         <a href="/about_us">About Us</a>
@@ -14,10 +17,9 @@
         <a href="/request_appointment">Request Appointment</a>
         <a href="#">Helpful Links</a>
     </div>
-    <h1>Request an appointment below!</h1>
-    <!-- Calendly inline widget begin -->
-    <div class="calendly-inline-widget" data-url="https://calendly.com/python_project" style="min-width:320px;height:630px;"></div>
-    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script>
-    <!-- Calendly inline widget end -->
+    <div id="main">
+        <h1>About Us</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ipsum, commodi suscipit facilis atque magni reprehenderit vitae tempore molestias, quia culpa voluptates cumque, quisquam odio placeat? Ea consequuntur necessitatibus rem!</p>
+    </div>
 </body>
 </html>

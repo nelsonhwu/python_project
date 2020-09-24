@@ -26,16 +26,17 @@ def add_project(request, class_id):
 
 def add_student(request, class_id):
     current_class = Class.objects.get(id=class_id)
-    new_student_id = request.POST['student.id']
+    new_student_id = request.POST['list_of_students']
     new_student = User.objects.get(id=new_student_id)
-    current_class.parent_classes.add(new_student)
+    current_class.user.add(new_student)
     return redirect(f'/class/{class_id}')
 
 def class_render(request, class_id):
     logged_in_user = User.objects.get(id=request.session['user_id'])
     context={
         'this_class' : Class.objects.get(id=class_id),
-        'user' : logged_in_user
+        'user' : logged_in_user,
+        'all_user' : User.objects.all()
     }
     return render(request, 'class.html', context)
 
@@ -72,6 +73,13 @@ def edit_class(request, class_id):
         'this_class' : Class.objects.get(id=class_id)
     }
     return render(request, 'edit_class.html', context)
+
+def all_class(request):
+    context={
+        'user': User.objects.get(id=request.session['user_id']),
+        'all_class' : Class.objects.all()
+    }
+    return render(request, 'class_info.html', context)
 
 def edit_class_post(request, class_id):
     errors = User.objects.update_class_validation(request.POST)
@@ -113,6 +121,9 @@ def calendar(request):
 
 def register(request):
     return render(request, "register.html")
+
+def about_us(request):
+    return render(request, 'about_us.html')
 
 def add_user(request):
     errors = User.objects.registration_validator(request.POST)
@@ -196,14 +207,14 @@ def image_viewer(request, image_id):
 
 def add_message(request, image_id):
     message = request.POST['message']
-    Message.objects.create(message = message, user_id = User.objects.get(id=request.session['user_id']))
+    Message.objects.create(message = message, user = User.objects.get(id=request.session['user_id']))
     return redirect(f'/image/{image_id}')
 
 def add_comment(request, image_id):
     comment = request.POST['comment']
     user = User.objects.get(id=request.session['user_id'])
     message_id = request.POST['message_id']
-    Comment.objects.create(comment = comment, message_id=Message.objects.get(id= message_id), user_id = user)
+    Comment.objects.create(comment = comment, message=Message.objects.get(id= message_id), user = user)
     return redirect(f'/image/{image_id}')
 
 def delete_message(request, image_id, message_id):
@@ -313,25 +324,6 @@ def edit_account(request, user_id):
 
         return render(request, "accountEdit.html", {"logged_user": logged_user})
     return redirect("/")
-
-def update (post_field, user_id):
-    # logged_user = User.objects.get(id=user_id)
-    # if post_field == "profile_image":
-    #     profile_image = request.FILES["profile_image"]
-    #     logged_user.profile_image.save(profile_image.name, profile_image)
-    #     logged_user.save()
-    #     return logged_user
-    if len(request.POST[post_field]) !=0 and post_field != "password":
-        logged_user[post_field] = request.POST[post_field]
-        logged_user.save()
-        return logged_user
-
-    elif len(request.POST[post_field]) !=0 and post_field == "password":
-        pw = request.POST[post_field]
-        pw_hash = bcrypt.hashpw(pw.encode("utf-8"), bcrypt.gensalt()).decode()
-        logged_user[post_field] = pw_hash
-        logged_user.save()
-        return logged_user
 
 
 def process_edit_user(request, user_id):
