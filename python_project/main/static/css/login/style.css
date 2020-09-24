@@ -53,3 +53,9 @@ label{
     font-weight: bold;
     font-family: 'Times New Roman', Times, serif;
 }
+a:link, a:visited, a:hover, a:active{
+    color: black;
+    background-color: transparent;
+    text-decoration: none;
+    font-size: large;
+}

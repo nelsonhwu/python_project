@@ -1,0 +1,41 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    margin: 10px auto;
+    padding: 20px;
+    width: 950px;
+    height: 750px;
+    border: black solid 1px;
+}
+.nav{
+    padding: 0px 10px 0px 150px;
+    display: flex;
+    justify-content: space-between;
+}
+.login{
+    margin: 10px;
+    width: 400px;
+}
+.login button{
+    width: 400px;
+<<<<<<< HEAD
+}
+.nav a:link{
+    display: flex;
+    justify-content: space-evenly;
+    border: black solid 2px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    box-shadow: 1px 2px black;
+    background-color: lightskyblue;
+    width: 350px;
+}
+label{
+    font-size: large;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
+}

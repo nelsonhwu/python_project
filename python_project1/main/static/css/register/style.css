@@ -1,0 +1,29 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    margin: 10px auto;
+    padding: 0px;
+    width: 950px;
+    height: auto;
+    border: black solid 1px;
+<<<<<<< HEAD
+    background-image: linear-gradient(#e5c5c5,#b2b2b2);
+    border: black solid 1px;
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
+    background-color: darkgray;
+}
+.nav{
+    margin: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.register{
+    margin: 10px;
+    width: 500px;
+    text-align: right;
+}
