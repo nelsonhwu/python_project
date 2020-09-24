@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect
 from .models import User, Class, Project, Message, Comment, Image, Relationship
 from django.contrib import messages
 import bcrypt
+from django.http import request
 ##########################################################################################################
 
 def index(request):
@@ -35,13 +36,9 @@ def class_render(request, class_id):
     }
     return render(request, 'class.html', context)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 def calendar(request):
     return render(request, 'calendar.html')
-=======
-=======
->>>>>>> parent of 6745074... 09/24/2020
+
 def new_class(request):
     return render(request, 'new_class.html')
 
@@ -109,10 +106,6 @@ def edit_class_post(request, class_id):
             current_class.desc = desc
             current_class.save()
         return redirect(f'/class/{class_id}')
-<<<<<<< HEAD
->>>>>>> parent of 6745074... 09/24/2020
-=======
->>>>>>> parent of 6745074... 09/24/2020
 
 def register(request):
     return render(request, "register.html")
@@ -207,7 +200,7 @@ def edit_account(request, user_id):
     return redirect("/")
 
 def update (post_field, user_id):
-    
+    logged_user = User.objects.get(id=user_id)
     if len(request.POST[post_field]) !=0 and post_field != "password":
         logged_user[post_field] = request.POST[post_field]
         logged_user.save()
@@ -220,7 +213,7 @@ def update (post_field, user_id):
         logged_user.save()
         return logged_user
 
-def process_edit_user(request, user_id):
+def process_edit_user(request, user_id, post_field):
         user_id = user_id
         logged_user = User.objects.get(id=user_id)
         errors = User.objects.edit_account_validation(request.POST)
@@ -378,8 +371,6 @@ def log_in(request):
         return redirect('/success')
     return('/login')
 
-<<<<<<< HEAD
-
 def add_relation(request):
     if 'user_id' not in request.session:
         return('/')
@@ -410,9 +401,6 @@ def add_relation(request):
     }
     return render(request, "success.html", context)
 
-<<<<<<< HEAD
-=======
->>>>>>> parent of 6745074... 09/24/2020
 def add_relation(request):
     if 'user_id' not in request.session:
         return('/')
@@ -436,21 +424,6 @@ def add_relation(request):
         return redirect("/success")
     else:
         return redirect("/success")
-
-<<<<<<< HEAD
-
-=======
-    print(logged_in_user.__dict__)
-    context = {
-        'logged_in_user' : logged_in_user,
-    }
-    return render(request, "success.html", context)
->>>>>>> parent of 6745074... 09/24/2020
-
-
-
-
-##########################################################################################################
 
 def edit_account(request, user_id):
     if "user_id" in request.session:
@@ -461,12 +434,12 @@ def edit_account(request, user_id):
     return redirect("/")
 
 def update (post_field, user_id):
-    # logged_user = User.objects.get(id=user_id)
-    # if post_field == "profile_image":
-    #     profile_image = request.FILES["profile_image"]
-    #     logged_user.profile_image.save(profile_image.name, profile_image)
-    #     logged_user.save()
-    #     return logged_user
+    logged_user = User.objects.get(id=user_id)
+    if post_field == "profile_image":
+        profile_image = request.FILES["profile_image"]
+        logged_user.profile_image.save(profile_image.name, profile_image)
+        logged_user.save()
+        return logged_user
     if len(request.POST[post_field]) !=0 and post_field != "password":
         logged_user[post_field] = request.POST[post_field]
         logged_user.save()
@@ -480,7 +453,7 @@ def update (post_field, user_id):
         return logged_user
 
 
-def process_edit_user(request, user_id):
+def process_edit_user(request, user_id, post_field):
         user_id = user_id
         logged_user = User.objects.get(id=user_id)
         errors = User.objects.edit_account_validation(request.POST)
@@ -628,16 +601,3 @@ def process_edit_project(request, project_id):
         messages.success(request, success_message)
         return redirect(f"/edit_project/{cur_proj.id}")
         
-
-=======
-def index2(request):
-    all_users = User.objects.all()
-    context = {
-        'all_users' : all_users
-    }
-<<<<<<< HEAD
-    return render(request, "index.html", context)
->>>>>>> parent of 6745074... 09/24/2020
-=======
-    return render(request, "index.html", context)
->>>>>>> parent of 6745074... 09/24/2020
