@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Edit User</title>
+        <title>Edit Project</title>
     </head>
     <body>
         <div id="navbar">
@@ -12,7 +12,7 @@
 
         <div id="rightcontent">
             
-            <p><a href="/logout">Log out</a></p>
+            <p><a href="/">Home</a> | <a href="/project_detail/{{cur_proj.id}}">Project</a> | <a href="/class/{{cur_proj.course.id}}">Class</a> | <a href="/edit_account/{{logged_user.id}}">Edit Profile</a> | <a href="/logout">Log out</a></p> 
             
             <div>
                 <img id="main_img" src="" alt="">
@@ -39,15 +39,16 @@
                     <div>
                         <p>Choose a class for this project: </p>
                         <select name="course" id="course">
+                            <option value="">Pick a Class</option>
                             {% for course in all_classes %}
-                            <option value="course.id">couse.name</option>
+                            <option value="{{course.id}}">{{course.subject}}</option>
                             {% endfor %}
                         </select>
                     </div>
 
                     <div>
                         <input type="submit" name="submit" value="Update Project">
-                        <button><a href="/edit_project/{{cur_proj.id}}">Cancle</a></button>
+                        <button><a href="/project_detail/{{cur_proj.id}}">Cancle</a></button>
                     </div>
                 </form>
 
@@ -63,5 +64,6 @@
                         {% endfor %}
                     {% endif %}
                 </div>
+                
                 
             </div>

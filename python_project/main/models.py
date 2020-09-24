@@ -64,17 +64,23 @@ class UserManager(models.Manager):
         if not post_data['class']:
             errors['class'] = 'Please include a class.'
         if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
-            error['due_date'] = "Deadline cannot be in the past"
+            errors['due_date'] = "Deadline cannot be in the past"
         return errors
     
     def class_validation(self, post_data):
         errors={}
-        if len(post_data['Subject']) < 2:
-            errors['Subject'] = 'Subject needs at least 2 characters.'
+        if len(post_data['subject']) < 2:
+            errors['subject'] = 'Subject needs at least 2 characters.'
         if not post_data['schedule_day']:
             errors['schedule_day'] = 'Please include a day for class to be held.'
         if not post_data['schedule_time']:
             errors['schedule_day'] = 'Please include a time for class to be held.'
+        return errors
+    
+    def update_class_validation(self, post_data):
+        errors={}
+        if post_data['subject'] and len(post_data['subject']) < 2:
+            errors['subject'] = 'Subject needs at least 2 characters.'
         return errors
 
     def edit_account_validation(self, post_data):
@@ -124,12 +130,17 @@ class UserManager(models.Manager):
         if len(post_data['title']) != 0 and len(post_data['title']) < 2:
             errors['title'] = 'Title needs at least 2 characters.'
         if len(post_data['due_date']) !=0 and post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
-            error['due_date'] = "Deadline cannot be in the past."
+            errors['due_date'] = "Deadline cannot be in the past."
         if len(post_data['desc']) != 0 and len(post_data['desc']) < 2:
             errors['desc'] = 'Description needs at least 2 characters.'
 
         return errors
 
+    def upload_image_validation(self, post_data):
+        errors ={}
+        if len(post_data['title']) < 2:
+            errors['title'] = 'Title needs at least 2 characters.'
+        return errors
 
 class User(models.Model):
     first_name = models.CharField(max_length = 255)
