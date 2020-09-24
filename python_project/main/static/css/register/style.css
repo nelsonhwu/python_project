@@ -9,6 +9,8 @@
     height: 768px;
     border: black solid 1px;
     background-image: linear-gradient(#e5c5c5,#b2b2b2);
+    border: black solid 1px;
+    background-color: darkgray;
 }
 .nav{
     margin: 10px;

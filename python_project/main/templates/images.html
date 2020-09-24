@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome, {{user.first_name}}</h1>
+    <a href="/logout">Logout</a>
+    <hr>
+    <div id="navigation">
+        <a href="#">Home</a>
+        <a href="#">About Us</a>
+        <a href="#">News</a>
+        <a href="#">Project Showcase</a>
+        <a href="#">Class Info</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Helpful Links</a>
+    </div>
+    <div id="image">
+        {% for image in all_images %}
+            <a href="/image/{{image.id}}">{{image.picture}}</a>
+            <a href="/image/{{image.id}}">{{image.title}}</a>
+            <a href="#">By: {{image.submitter.first_name}}</a><br>
+            <img width="200" height="200" src="{{image.picture.url}}" alt="Project_Image">
+            <p><a href="/image/{{image.id}}">{{image.title}}</a></p>
+            <p><a href="#">By: {{image.submitter.first_name}}</a><br></p>
+        {% endfor %}
+    </div>
+</body>
+</html>
