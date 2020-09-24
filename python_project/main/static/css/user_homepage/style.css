@@ -1,0 +1,60 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    width: 1024px;
+    height: 768px;
+    border: black solid 1px;
+}
+.header{
+    text-align: right;
+}
+.body{
+    display: flex;
+    justify-content: space-between;
+    width: auto;
+}
+.body_left{
+    border: black solid 5px;
+    border-radius: 5px;
+    padding: 2px;
+}
+.class_info{
+    border: black solid 5px;
+    border-radius: 5px;
+    padding: 2px;
+    width: 400px;
+}
+.body_right h3{
+    border-radius: 5px;
+    padding: 2px;
+    width: 400px;
+    border: black solid 5px;
+}
+.body_right{
+    border-radius: 5px;
+    padding: 2px;
+    width: 700px;
+}
+.info{
+    margin-top: 10px;
+    padding-left: 120px;
+    width: 800px;
+    display: flex;
+    justify-content: space-around;
+}
+select{
+    width: 200px;
+}
+button{
+    width: 200px;
+}
+.info_left, .info_right{
+    width: 300px;
+    height: auto;
+    border: black solid 2px;
+    padding: 2px;
+    border-radius: 10px;
+    text-align: center;
+}

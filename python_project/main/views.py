@@ -8,7 +8,15 @@ from django.contrib import messages
 ##########################################################################################################
 
 def index(request):
-    return render(request, "homepage.html")
+    if 'user_id' not in request.session:
+        return render(request, "homepage.html")
+    logged_in_user = User.objects.get(id=request.session['user_id'])
+    all_relationships = Relationship.objects.all()
+    context = {
+        'logged_in_user' : logged_in_user,
+        'all_relationships' : all_relationships,
+    }
+    return render(request, "user_homepage.html")
 
 def add_project(request, class_id):
     current_class = Class.objects.get(id=class_id)
@@ -125,7 +133,7 @@ def register(request):
 def about_us(request):
     return render(request, 'about_us.html')
 
-def add_user(request):
+def add_user(request): #2:15
     errors = User.objects.registration_validator(request.POST)
     if len(errors) > 0:
         for msg in errors.values():
@@ -148,10 +156,10 @@ def add_user(request):
     request.session['user_id'] = new_user.id
     return redirect('/success')
 
-def login(request):
+def login(request):  #2:15
     return render(request, "login.html")
 
-def log_in(request):
+def log_in(request): #2:15
     errors = User.objects.login_validation(request.POST)
     if len(errors) > 0:
         for msg in errors.values():
@@ -162,10 +170,10 @@ def log_in(request):
         user = list_of_users[0]
         if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password.encode()):
             request.session['user_id'] = user.id
-            return redirect('/success')
+            return redirect('/user_homepage')
         return redirect('/')
 
-def success(request):
+def success(request): #2:15
     if 'user_id' not in request.session:
         return redirect('/')
     logged_in_user = User.objects.get(id=request.session['user_id'])
@@ -175,9 +183,9 @@ def success(request):
         'logged_in_user' : logged_in_user,
         'all_relationships' : all_relationships,
     }
-    return render(request, "success.html", context)
+    return render(request, "user_homepage.html", context)
 
-def logout(request):
+def logout(request): #2:15
     request.session.clear()
     return redirect('/')
 
@@ -188,13 +196,22 @@ def user(request):
     }
     return render(request, 'user_info.html',context)
 
-def image_block(request):
+def user_homepage(request):
+    if 'user_id' not in request.session:
+        return redirect('/')
+    logged_in_user = User.objects.get(id=request.session['user_id'])
+    context = {
+        'user':logged_in_user,
+    }
+    return render(request, "user_homepage.html", context)
+
+def image_block(request): #2:15
     context = {
         'all_images': Image.objects.all()
     }
     return render(request, 'images.html', context)
 
-def image_viewer(request, image_id):
+def image_viewer(request, image_id): #2:15
     current_image = Image.objects.get(id=image_id)
     logged_in_user = User.objects.get(id=request.session['user_id'])
     context={
@@ -205,86 +222,22 @@ def image_viewer(request, image_id):
     }
     return render(request, 'viewer.html', context)
 
-def add_message(request, image_id):
+def add_message(request, image_id): #2:15
     message = request.POST['message']
     Message.objects.create(message = message, user = User.objects.get(id=request.session['user_id']))
     return redirect(f'/image/{image_id}')
 
-def add_comment(request, image_id):
+def add_comment(request, image_id): #2:15
     comment = request.POST['comment']
     user = User.objects.get(id=request.session['user_id'])
     message_id = request.POST['message_id']
     Comment.objects.create(comment = comment, message=Message.objects.get(id= message_id), user = user)
     return redirect(f'/image/{image_id}')
 
-def delete_message(request, image_id, message_id):
+def delete_message(request, image_id, message_id): #2:15
     message = Message.objects.get(id=message_id)
     message.delete()
     return redirect(f'/image/{image_id}')
-
-def register(request):
-    return render(request, "register.html")
-
-def add_user(request):
-    errors = User.objects.registration_validator(request.POST)
-    if len(errors) > 0:
-        for msg in errors.values():
-            messages.error(request, msg)
-        return redirect('/register')
-    password = request.POST['password']
-    pw_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode()
-    new_user = User.objects.create(
-        first_name = request.POST['first_name'],
-        last_name = request.POST['last_name'],
-        email = request.POST['email'],
-        password = pw_hash,
-        street_address = request.POST['street_address'],
-        city = request.POST['city'],
-        state = request.POST['state'],
-        zip_code = request.POST['zip_code'],
-        phone = request.POST['phone'],
-        access_level = request.POST['access_level']
-    )
-    request.session['user_id'] = new_user.id
-    return redirect('/success')
-
-def login(request):
-    return render(request, "login.html")
-
-def log_in(request):
-    errors = User.objects.login_validation(request.POST)
-    if len(errors) > 0:
-        for msg in errors.values():
-            messages.error(request, msg)
-        return redirect('/login')
-    list_of_users = User.objects.filter(email=request.POST['email'])
-    if len(list_of_users) > 0:
-        user = list_of_users[0]
-        if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password.encode()):
-            request.session['user_id'] = user.id
-            return redirect('/user_info')
-        return redirect('/')
-
-def success(request):
-    if 'user_id' not in request.session:
-        return redirect('/')
-    logged_in_user = User.objects.get(id=request.session['user_id'])
-    print(logged_in_user.__dict__)
-    context = {
-        'logged_in_user' : logged_in_user,
-    }
-    return render(request, "success.html", context)
-
-def logout(request):
-    request.session.clear()
-    return redirect('/')
-
-def user(request):
-    logged_in_user = User.objects.get(id=request.session['user_id'])
-    context = {
-        'logged_in_user':logged_in_user,
-    }
-    return render(request, 'user_info.html',context)
 
 def add_relation(request):
     if 'user_id' not in request.session:
@@ -416,7 +369,7 @@ def process_upload(request, project_id):
         new_image.save()
         new_image.picture.save(image.name, image)
 
-        return redirect("/image/all")
+        return redirect(f"/project_detail/{cur_proj.id}")
 
 
 def process_reviewed(request, project_id):

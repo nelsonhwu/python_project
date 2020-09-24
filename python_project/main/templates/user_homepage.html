@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user_homepage/style.css' %}" />
+    <title>User Page</title>
+</head>
+<body>
+    
+<div class="container">
+    <div class="header">
+        <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
+    </div>
+    <div class="img"> 
+        <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+    </div>
+    <div class="body">
+        <div class="body_left">
+            <a href="/user_homepage">Home</a>
+            <a href="/about_us">About Us</a>
+            <a href="/image/all">Project Showcase</a>
+            <a href="/class_info">Class Info</a>
+            <a href="/request_appointment">Request Appointment</a>
+            <a href="#">Helpful Links</a>
+        </div>
+        <div class="body_right">
+            <h3>Class Name</h3>
+            <div class="class_info">
+                <h6>Class info:</h6>
+                <h6>Description</h6>
+                <h6>Scheduled Class Time</h6>
+            </div>
+        </div>
+    </div>
+    <div class="info">
+        <div class="info_left">
+            <h5>Projects</h5>
+                {% for project in all_projects %}
+                    <p>{{project.title}}</p>
+                {% endfor %}
+            {% for user in all_users %}
+                {% if user.access_level == 1 %}
+                    <button type="button" class="btn btn-info"><a href="/class/<int:class_id>">Add a project</a></button>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="info_right">
+            <h5>Students</h5>
+            {% for user in all_users %}
+                {% if user.access_level == 1 %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <select name="student" id="student">
+                            {% for student in all_users %}
+                                {% if student.access_level == 4 %}
+                                    <option value="{{student.id}}">{{student.first_name}} {{student.last_name}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select><br>
+                        <button type="button" class="btn btn-info">Add a student</button>
+                    </form>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

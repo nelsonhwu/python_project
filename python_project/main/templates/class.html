@@ -10,7 +10,7 @@
     <a href="/logout">Logout</a>
     <hr>
     <div id="navigation">
-        <a href="#">Home</a>
+        <a href="/user_homepage">Home</a>
         <a href="/about_us">About Us</a>
         <a href="/image/all">Project Showcase</a>
         <a href="/class_info">Class Info</a>
@@ -55,11 +55,11 @@
     </div>
     <div id="students">
         <h3>Students: </h3>
-        
+        <ul>
         {% for student in this_class.user.all %}
-            <a href="#">{{student.first_name}} {{student.last_name}}</a>
+                <li><a href="#">{{student.first_name}} {{student.last_name}}</a></li>
         {% endfor %}
-
+        </ul>
         {% if user.access_level == 'teacher' %}
             <p>Add Student to class</p>
             <form action="/add_student/{{this_class.id}}" method="post">

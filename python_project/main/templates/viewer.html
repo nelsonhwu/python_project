@@ -10,7 +10,7 @@
     <a href="/logout">Logout</a>
     <hr>
     <div id="navigation">
-        <a href="#">Home</a>
+        <a href="/user_homepage">Home</a>
         <a href="/about_us">About Us</a>
         <a href="/image/all">Project Showcase</a>
         <a href="/class_info">Class Info</a>
@@ -29,7 +29,7 @@
             <textarea name="message" id="message" cols="50" rows="10"></textarea><br>
             <button type="submit">Post a message</button>
         </form>
-    
+        
         {% for message in all_messages %}
             <h3>{{message.user.first_name}} {{message.user.last_name}} -- {{message.created_at}}</h3>
             <p>{{ message.message }}</p>
