@@ -30,11 +30,15 @@ urlpatterns = [
     path('log_in', views.log_in),
     path('success', views.success),
     path('logout', views.logout),
+<<<<<<< HEAD
     path('user_info',views.user),
     path('add_relation', views.add_relation),
 <<<<<<< HEAD
 =======
     path('index', views.index2),
+=======
+    path('user_info',views.user)
+>>>>>>> parent of f98ce8c... 09/23/2020
 
     path('class/<int:class_id>/edit', views.edit_class),
     path('class/new', views.new_class),

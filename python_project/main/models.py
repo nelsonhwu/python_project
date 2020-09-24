@@ -47,30 +47,38 @@ class UserManager(models.Manager):
         if len(post_data['phone']) > 0 and len(post_data['phone']) < 10:
             errors['phone'] = 'Please enter your phone number with the area code.'
         if len(post_data['phone']) > 0 and not PHONE_REGEX.match(post_data['phone']):
+<<<<<<< HEAD
             errors['invalid_phone'] = 'Please enter valid phone number.'   
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
             errors['invalid_phone'] = 'Please enter valid phone number.'
         return errors
 
-    def login_validator(self, post_data):
+    def login_validation(self, post_data):
         errors = {}
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if not EMAIL_REGEX.match(post_data['email']):
             errors['invalid_email'] = 'Invalid email! Try Again!'
         return errors
 
-    def project_validator(self, post_data):
+    def project_validation(self, post_data):
         errors={}
         if len(post_data['title']) < 2:
             errors['title'] = 'Title needs at least 2 characters.'
         if not post_data['class']:
             errors['class'] = 'Please include a class.'
+<<<<<<< HEAD
         #if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
         #    error['due_date'] = "Deadline cannot be in the past"
         if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
             errors['due_date'] = "Deadline cannot be in the past"
+=======
+        if post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
+            error['due_date'] = "Deadline cannot be in the past"
+>>>>>>> parent of f98ce8c... 09/23/2020
         return errors
     
-    def class_validator(self, post_data):
+    def class_validation(self, post_data):
         errors={}
         if len(post_data['subject']) < 2:
             errors['subject'] = 'Subject needs at least 2 characters.'
@@ -79,6 +87,7 @@ class UserManager(models.Manager):
         if not post_data['schedule_time']:
             errors['schedule_day'] = 'Please include a time for class to be held.'
         return errors
+<<<<<<< HEAD
     
     def related_person_validator(self, post_data):
         errors={}
@@ -229,6 +238,8 @@ class UserManager(models.Manager):
         if len(post_data['title']) < 2:
             errors['title'] = 'Title needs at least 2 characters.'
         return errors
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
 
 class User(models.Model):
     first_name = models.CharField(max_length = 255)
@@ -241,11 +252,16 @@ class User(models.Model):
     phone = models.IntegerField(blank=True, null=True)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length = 255)
+<<<<<<< HEAD
     access_level = models.CharField(max_length = 255)
+=======
+    # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True) recursion error
+>>>>>>> parent of f98ce8c... 09/23/2020
     profile_image = models.ImageField(upload_to='profile_image', blank=True, null=True, default="profile1.png")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
+<<<<<<< HEAD
     relationships = models.ManyToManyField('self', through='Relationship', symmetrical=False, related_name='related_to')
     def __unicode__(self):
         return self.first_name + " " + self.last_name
@@ -272,6 +288,13 @@ class Relationship(models.Model):
     
 class Class(models.Model):
     user = models.ManyToManyField('User', related_name="parent_classes")
+=======
+
+class Class(models.Model):
+    # teacher = models.ManyToManyField(Teacher, related_name="teacher_classes")
+    # student = models.ManyToManyField(Student, related_name="student_classes")
+    user = models.ManyToManyField(User, related_name="parent_classes")
+>>>>>>> parent of f98ce8c... 09/23/2020
     subject = models.CharField(max_length=255)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
@@ -281,8 +304,6 @@ class Class(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
-    def __repr__(self):
-        return f'{self.subject}'
     
 class Project(models.Model):
     course = models.ForeignKey(Class, related_name="project_classes", on_delete=models.CASCADE)
@@ -300,8 +321,6 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
-    def __repr__(self):
-        return f'{self.user} - {self.message}'
 
 class Comment(models.Model):
     comment = models.TextField()
@@ -310,8 +329,6 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
-    def __repr__(self):
-        return f'{self.user} - {self.comment}'
 
 class Image(models.Model):
     title = models.CharField(max_length=255)

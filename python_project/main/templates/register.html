@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/register/style.css' %}" />
     <title>Register</title>
@@ -17,6 +16,7 @@
         {% endfor %}
     </ul>
     {% endif %}    
+<<<<<<< HEAD
   <div class="container">
       <div class="nav">
         <div class="reg">
@@ -150,5 +150,59 @@
           </div>
       </div>
   </div>
+=======
+<div class="container">
+    <div class="nav">
+        <div>
+            <p>Maybe Logo?</p>
+        </div>
+        <div>
+            <h1>Register</h1>
+        </div>
+        <div>
+            <a href="/">Back to Homepage</a>
+            | <a href="#">Already Registered?</a>
+            | <a href="#">Need Help?</a>
+        </div>
+    </div>
+    <div class="body" >
+        <div class="register">
+            <form action="/add_user" method="POST">
+                {% csrf_token %}
+                    <label for="first_name">First Name</label>
+                    <input type="text" name="first_name" id="first_name"><br>
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" id="last_name"><br>
+                    <label for="street_address">Street Address</label>
+                    <input type="text" name="street_address" id="street_address"><br>
+                    <label for="city">City</label>
+                    <input type="text" name="city" id="city"><br>
+                    <label for="state">State</label>
+                    <input type="text" name="state" id="state"><br>
+                    <label for="zip_code">Zip Code</label>
+                    <input type="text" name="zip_code" id="zip_code"><br>
+                    <label for="access_level">Registering as:</label>
+                    <select name="access_level" id="access_level">
+                        <option value="teacher">Teacher</option>
+                        <option value="faculty">Faculty Administrator</option>
+                        <option value="parent">Parent</option>
+                        <option value="student">Student</option>
+                    </select><br>
+                    <label for="phone">If applicable: Phone Number</label>
+                    <input type="number" name="phone" id="phone"><br>
+                    <label for="email">Email address</label>
+                    <input type="email" name="email" id="email"><br>
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password"><br>
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" name="confirm_password" id="confirm_password"><br>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+>>>>>>> parent of f98ce8c... 09/23/2020
 </body>
 </html>

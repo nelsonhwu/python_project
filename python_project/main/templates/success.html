@@ -14,22 +14,9 @@
             <p><a href="/user_info">User Info</a>  | <a href="/logout">Log Out</a></p>   
         </div>
         <div class="body">
-            <h1>Welcome {{logged_in_user.first_name}}, You have successfully logged or registered.</h1>
-            <form action="/add_relation" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="logged_in_user_email" id="logged_in_user_email" value="{{logged_in_user.email}}">
-                <label for="email"> Associated Person Email: </label>
-                <input type="email" name="email" id="email">
-                <label for="status">What is your relationship to this person?</label>
-                <select name="status" id="status">
-                    <option value="1">Parent</option>
-                    <option value="2">Guardian Other than Parent</option>
-                    <option value="3">Student/Child</option>
-                    <option value="4">Sibling</option>
-                </select>
-                <input type="submit" value="Submit">
-            </form>
+            <h1>Welcome {{user.first_name}}, You have successfully logged or registered.</h1>
         </div>
+<<<<<<< HEAD
         <table class="table">
             <thead>
                 <td>#</td>
@@ -66,6 +53,8 @@
             </tr>
             {% endfor %}
         </table>
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
     </div>
 </body>
 </html>

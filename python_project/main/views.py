@@ -1,9 +1,14 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import User, Class, Project, Message, Comment, Image, Relationship
+from .models import User, Class, Project, Message, Comment
+from .models import User, Class, Project, Message, Comment, Image
 from django.contrib import messages
 import bcrypt
+<<<<<<< HEAD
 from django.http import request
 ##########################################################################################################
+=======
+from .models import User,Class,Project,Message,Comment,Image
+>>>>>>> parent of f98ce8c... 09/23/2020
 
 def index(request):
     return render(request, "homepage.html")
@@ -29,10 +34,15 @@ def add_student(request, class_id):
     return redirect(f'/class/{class_id}')
 
 def class_render(request, class_id):
-    logged_in_user = User.objects.get(id=request.session['user_id'])
+    logged_in_user = User.obejcts.get(id=request.session['user_id'])
     context={
+<<<<<<< HEAD
         'this_class' : Class.objects.get(id=class_id),
         'user' : logged_in_user
+=======
+        this_class : Class.objects.get(id=class_id),
+        user : logged_in_user
+>>>>>>> parent of f98ce8c... 09/23/2020
     }
     return render(request, 'class.html', context)
 
@@ -358,7 +368,7 @@ def calendar(request):
     return render(request, 'calendar.html')
 
 def log_in(request):
-    errors = User.objects.login_validator(request.POST)
+    errors = User.objects.login_validation(request.POST)
     if len(errors) > 0:
         for msg in errors.values():
             messages.error(request, msg)
@@ -368,13 +378,19 @@ def log_in(request):
         user = list_of_users[0]
         if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password.encode()):
             request.session['user_id'] = user.id
+<<<<<<< HEAD
         return redirect('/success')
     return('/login')
+=======
+            return redirect('/success')
+        return redirect('/')
+>>>>>>> parent of f98ce8c... 09/23/2020
 
 def add_relation(request):
     if 'user_id' not in request.session:
         return('/')
     logged_in_user = User.objects.get(id=request.session['user_id'])
+<<<<<<< HEAD
     errors = User.objects.related_person_validator(request.POST)
     if len(errors) > 0:
         for msg in errors.values():
@@ -395,12 +411,15 @@ def add_relation(request):
     else:
         return redirect("/success")
 
+=======
+>>>>>>> parent of f98ce8c... 09/23/2020
     print(logged_in_user.__dict__)
     context = {
         'logged_in_user' : logged_in_user,
     }
     return render(request, "success.html", context)
 
+<<<<<<< HEAD
 def add_relation(request):
     if 'user_id' not in request.session:
         return('/')
@@ -601,3 +620,15 @@ def process_edit_project(request, project_id):
         messages.success(request, success_message)
         return redirect(f"/edit_project/{cur_proj.id}")
         
+=======
+def logout(request):
+    request.session.clear()
+    return redirect('/')
+
+def user(request):
+    logged_in_user = User.objects.get(id=request.session['user_id'])
+    context = {
+        'logged_in_user':logged_in_user,
+    }
+    return render(request, 'user_info.html',context)
+>>>>>>> parent of f98ce8c... 09/23/2020
