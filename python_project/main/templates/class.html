@@ -38,6 +38,14 @@
         {% endfor %}
 
         {% if user.access_level == teacher_level %}
+        <ul>
+            {% for project in this_class.project_classes.all %}
+                <li><a href="/project_detail/{{project.id}}">{{project.title}}</a></li>
+            {% endfor %}
+
+        </ul>
+
+        {% if user.access_level == 'teacher' %}
             <p>Create New Project for Class:</p>
             <form action="/add_project/{{this_class.id}}" method="post">
                 {% csrf_token %}
@@ -58,6 +66,7 @@
         {% endfor %}
 
         {% if user.access_level == teacher_level %}
+        {% if user.access_level == 'teacher' %}
             <p>Add Student to class</p>
             <form action="/add_student/{{this_class.id}}" method="post">
                 {% csrf_token %}

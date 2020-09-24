@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Project Detail</title>
+    </head>
+    <body>
+        <div id="navbar">
+            {# container for nav bar #}
+        </div>
+
+        <div id="rightcontent">
+            
+            <p><a href="/">Home</a> | <a href="/project_detail/{{cur_proj.id}}">Project</a> | <a href="/class/{{cur_proj.course.id}}">Class</a> | <a href="/edit_account/{{logged_user.id}}">Edit Profile</a> | <a href="/logout">Log out</a></p> 
+            
+            <div>
+                <img id="main_img" src="" alt="">
+            </div>
+
+            <div id="project_info">
+                {% if logged_user in cur_proj.reviewed_by_user.all %}
+                <h2>{{cur_proj.title}} (Project Completed)</h2>
+                {% else %}
+                <h2>{{cur_proj.title}}</h2>
+                {% endif %}
+                {% if logged_user in cur_proj.reviewed_by_user.all %}
+                <p><a href="/process_unreviewed/{{cur_proj.id}}">Click to unmark finished this project</a></p>
+                {% else %}
+                <p><a href="/process_reviewed/{{cur_proj.id}}">Click to mark finished this project</a></p>
+                {% endif %}
+                
+
+                <div>
+                    <P>Assigned Class: {{cur_proj.course.subject}}</P>
+                    <P>Deadline: {{cur_proj.due_date|date:"f a F j, Y"}}</P>
+                    <P>Description: {{cur_proj.desc}}</P>
+                    <p>This project currently has {{total_images}} art works.</p>
+                    <p><a href="/image/all">Show All Art Work</a></p>
+                    <p><a href="/edit_project/{{cur_proj.id}}">Edit This Project</a></p>
+                </div>
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "upload_img_err" in message.tags %}
+                                <li>{{message}}</li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <form action="/process_upload/{{cur_proj.id}}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <label for="title">Title: </label>
+                        <input type="text" name="title" id="title">
+                    </div>
+
+                    <div>
+                        <label for="picture">Upload your art work here: </label>
+                        <input type="file" name="picture" id="picture">
+                    </div>
+                    <input type="hidden" name="submitter" value="{{logged_user.id}}">
+                    <input type="submit" name="submit" id="submit" value="Submit">
+                </form>
+
+            </div>
+
+        </div>
+    </body>
+</html>

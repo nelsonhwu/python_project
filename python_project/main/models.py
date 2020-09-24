@@ -96,6 +96,65 @@ class User(models.Model):
             errors['subject'] = 'Subject needs at least 2 characters.'
         return errors
 
+    def edit_account_validation(self, post_data):
+        errors={}
+        if len(post_data['first_name']) != 0 and len(post_data['first_name']) < 2:
+            errors['first_name'] = 'First name needs at least 2 characters.'
+        if len(post_data['first_name']) != 0 and not NAME_REGEX.match(post_data['first_name']):
+            errors['first_name_char'] = 'First name should contain only letters'
+        
+        if len(post_data['last_name']) != 0 and len(post_data['last_name']) < 2:
+            errors['last_name'] = 'Last name needs at least 2 characters.'
+        if len(post_data['last_name']) != 0 and not NAME_REGEX.match(post_data['last_name']):
+            errors['last_name_char'] = 'Last name should contain only letters'
+        
+        if len(post_data['email']) != 0 and not EMAIL_REGEX.match(post_data['email']):
+            errors['invalid_email'] = 'Invalid email! Try Again!'
+        
+        if len(post_data['password']) != 0 and len(post_data['password']) < 8:
+            errors['password_length'] = 'Passwords need at least 8 characters.'
+        if post_data['password'] != post_data['confirm_password']:
+            errors['invalid_password'] = 'Password does not match with Confirm Password.'
+        
+        if len(post_data['street_address']) != 0 and len(post_data['street_address']) < 2:
+            errors['street_address'] = 'Your address needs at least 2 characters.'
+        if len(post_data['street_address']) != 0 and not ADDRESS_REGEX.match(post_data['street_address']):
+            errors['invalid_street_address'] =  'Please enter a valid Address.'
+        
+        if len(post_data['city']) != 0 and len(post_data['city']) < 2:
+            errors['city'] = "Please enter your city address."
+
+        if len(post_data['state']) != 0 and len(post_data['state']) < 2:
+            errors['state'] = "Please enter your state."
+
+        if len(post_data['zip_code']) != 0 and len(post_data['zip_code']) < 4:
+            errors['zip_code'] = "Please enter your 5 digit zip code."
+        
+        if len(post_data['phone']) != 0 and len(post_data['phone']) < 10:
+            errors['phone'] = 'Please enter your phone number with the area code.'
+        if len(post_data['phone']) != 0 and not PHONE_REGEX.match(post_data['phone']):
+            errors['invalid_phone'] = 'Please enter valid phone number.'
+        # if len(post_data["related_user"]) != 0 and User.objects.filter(id=post_data["related_user"]).exists() == False:
+        #     errors["related_user"] = "The parent's you put in does not exsit!"
+        return errors
+
+    def edit_project_validation(self,post_data):
+        errors={}
+        if len(post_data['title']) != 0 and len(post_data['title']) < 2:
+            errors['title'] = 'Title needs at least 2 characters.'
+        if len(post_data['due_date']) !=0 and post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
+            errors['due_date'] = "Deadline cannot be in the past."
+        if len(post_data['desc']) != 0 and len(post_data['desc']) < 2:
+            errors['desc'] = 'Description needs at least 2 characters.'
+
+        return errors
+
+    def upload_image_validation(self, post_data):
+        errors ={}
+        if len(post_data['title']) < 2:
+            errors['title'] = 'Title needs at least 2 characters.'
+        return errors
+
 class User(models.Model):
     first_name = models.CharField(max_length = 255)
     last_name = models.CharField(max_length = 255)
@@ -108,6 +167,8 @@ class User(models.Model):
     email = models.CharField(max_length=255)
     password = models.CharField(max_length = 255)
     # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True) recursion error
+    access_level = models.CharField(max_length = 255)
+    # related_user = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     profile_image = models.ImageField(upload_to='profile_image', blank=True, null=True, default="profile1.png")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

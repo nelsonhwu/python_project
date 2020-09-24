@@ -23,6 +23,9 @@
             <a href="/image/{{image.id}}">{{image.picture}}</a>
             <a href="/image/{{image.id}}">{{image.title}}</a>
             <a href="#">By: {{image.submitter.first_name}}</a><br>
+            <img width="200" height="200" src="{{image.picture.url}}" alt="Project_Image">
+            <p><a href="/image/{{image.id}}">{{image.title}}</a></p>
+            <p><a href="#">By: {{image.submitter.first_name}}</a><br></p>
         {% endfor %}
     </div>
 </body>
