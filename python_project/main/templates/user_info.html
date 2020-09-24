@@ -3,10 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/user_info/style.css' %}">
+    
     <title>user_info</title>
 </head>
 <body>
+    <nav>
+        <label class='logo'>Art studio</label>
+        <ul>
+            <li><a href="#homepage">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="">News</a></li>
+            <li><a href="">Project Show case</a></li>
+            <li><a href="">Class Info</a></li>
+            <li><a href="">Contact Us</a></li>
+            <li><a href="">Helpful Links</a></li>
+        </ul>
+    </nav>
 
+    <p>
     <ul>
         <li>Student Info:{{logged_in_user.first_name}}</li>
         <li>ID:</li>
@@ -15,5 +31,10 @@
         <li>Class:</li>
         <li>Parent:</li>
     </ul>
+</p>
+
+
+    
+
 </body>
 </html>
