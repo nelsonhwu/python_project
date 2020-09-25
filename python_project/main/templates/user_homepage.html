@@ -42,7 +42,7 @@
             </div>
 
             {% if user.access_level == "teacher" %}
-                <button type="button" class="btn btn-dark"><a href="/class/new">Create A Class</a></button>
+                <button type="button" class="btn btn-dark"><a id="cac" href="/class/new">Create A Class</a></button>
             {% endif %}
         </div>
         
@@ -50,7 +50,7 @@
             <div class="bulletin">
                 <h4>Bulletin Board:</h4>
                 {% for bulletin in all_bulletin reversed %}
-                    <h3>{{bulletin.bulletin}}</h3>
+                    <li>{{bulletin.bulletin}} - {{bulletin.created_at}}</li>
                     {% if bulletin.user.id == request.session.user_id %}
                         <form action="/bulletin/{{bulletin.id}}/delete">
                         {% csrf_token %}
@@ -80,10 +80,16 @@
             {% endif %}
             
             <div class="contact_info">
-                <p>Company Phone: (916) 223-4586 </p>
-                <p>Company Address: 100 Charming Ave </p>
-                <p>Company Email: AceArt@gmail.com </p>
-                <p>Company Social Media: #AceArt </p>
+                <span id="com_name">Ace Art Academy</span>
+                <div id="com_ph_addr">
+                    <span>100 Charming Ave </span>
+                    <span>(916) 223-4586 </span>
+                </div>
+
+                <div id="com_e_med">
+                    <span>AceArt@gmail.com </span>
+                    <span style="margin-left: 10px;">Follow us on Facebook: #AceArt </span>
+                </div>
             </div>
         </div>
     </div>

@@ -79,6 +79,9 @@ class UserManager(models.Manager):
     
     def update_class_validation(self, post_data):
         errors={}
+        NAME_REGEX = re.compile(r'^[a-zA-Z]')
+        EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+        PHONE_REGEX = re.compile(r'^\+?1?\d{9,15}$')
         if post_data['subject'] and len(post_data['subject']) < 2:
             errors['subject'] = 'Subject needs at least 2 characters.'
         return errors

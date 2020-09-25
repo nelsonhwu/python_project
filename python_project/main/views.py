@@ -189,7 +189,7 @@ def log_in(request): #2:15
         if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password.encode()):
             request.session['user_id'] = user.id
             return redirect('/user_homepage')
-        return redirect('/')
+    return redirect('/')
 
 def success(request): #2:15
     if 'user_id' not in request.session:
