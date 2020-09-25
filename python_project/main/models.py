@@ -79,6 +79,9 @@ class UserManager(models.Manager):
     
     def update_class_validation(self, post_data):
         errors={}
+        NAME_REGEX = re.compile(r'^[a-zA-Z]')
+        EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+        PHONE_REGEX = re.compile(r'^\+?1?\d{9,15}$')
         if post_data['subject'] and len(post_data['subject']) < 2:
             errors['subject'] = 'Subject needs at least 2 characters.'
         return errors
@@ -125,6 +128,19 @@ class UserManager(models.Manager):
         #     errors["related_user"] = "The parent's you put in does not exsit!"
         return errors
 
+    def new_project_validation(self, post_data):
+        errors={}
+        if len(post_data['title']) < 2:
+            errors['title'] = 'Title needs at least 2 characters.'
+        if not post_data['due_date']:
+            errors['no_due_date'] = "Please include a due date."
+        if post_data['due_date'] and post_data['due_date'] < date.today().strftime("%Y-%m-%d"):
+            errors['due_date'] = "Deadline cannot be in the past."
+        if len(post_data['desc']) < 2:
+            errors['desc'] = 'Description needs at least 2 characters.'
+
+        return errors
+
     def edit_project_validation(self,post_data):
         errors={}
         if len(post_data['title']) != 0 and len(post_data['title']) < 2:
@@ -147,6 +163,12 @@ class UserManager(models.Manager):
         logged_in_user_email = post_data['logged_in_user_email']
         if logged_in_user_email == post_data['email']:
                 errors['email'] = "You cannot enter your own email"
+        return errors
+    
+    def add_student_validation(self, post_data):
+        errors={}
+        if 'list_of_students' not in post_data:
+            errors['student'] = "No more available students."
         return errors
 
 class User(models.Model):
@@ -210,12 +232,23 @@ class Project(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
     
+
+class Image(models.Model):
+    title = models.CharField(max_length=255)
+    picture = models.ImageField(upload_to="main/static/img")
+    submission = models.ForeignKey(Project, related_name="images", on_delete=models.CASCADE)
+    submitter = models.ForeignKey(User, related_name='submitted_images', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = UserManager()
+
 class Message(models.Model):
     message = models.TextField()
     user = models.ForeignKey(User, related_name="messages", on_delete=models.CASCADE)
     # parent_id = models.ForeignKey(Teacher, related_name="parent_messages", on_delete=models.CASCADE)
     # student_id = models.ForeignKey(Teacher, related_name="student_messages", on_delete=models.CASCADE)
     # access_level = models.IntegerField()
+    image_comment = models.ForeignKey(Image, related_name="messages", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
@@ -230,11 +263,9 @@ class Comment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
 
-class Image(models.Model):
-    title = models.CharField(max_length=255)
-    picture = models.ImageField(upload_to="main/static/img")
-    submission = models.ForeignKey(Project, related_name="images", on_delete=models.CASCADE)
-    submitter = models.ForeignKey(User, related_name='submitted_images', on_delete=models.CASCADE)
+class Bulletin_board(models.Model):
+    bulletin = models.TextField()
+    user = models.ForeignKey(User, related_name="bulletins", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()

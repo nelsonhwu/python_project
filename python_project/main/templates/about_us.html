@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/calendar/style.css' %}" />
-    <title>Request Appointment</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/about_us/style.css' %}" />
+    <title>About Us</title>
 </head>
 <body>
     <div class="container">
@@ -25,12 +25,13 @@
                 </div>
             </div>
         </div>
-        <h2 style="text-align:center; padding-top:50px;">Request an appointment below!</h2>
-        <!-- Calendly inline widget begin -->
-        <div class="calendly-inline-widget" data-url="https://calendly.com/python_project" style="min-width:320px;height:630px;"></div>
-        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script>
-        <!-- Calendly inline widget end -->
+    
+        <div class="lower_body">
+            <h1>About Us</h1>
+            <h4>We are Ace Art Academy!</h4>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis ipsum, commodi suscipit facilis atque magni reprehenderit vitae tempore molestias, quia culpa voluptates cumque, quisquam odio placeat? Ea consequuntur necessitatibus rem!</p>
 
+        </div>
         <div class="contact_info">
             <span id="com_name">Ace Art Academy</span>
             <div id="com_ph_addr">
@@ -44,6 +45,5 @@
             </div>
         </div>
     </div>
-
 </body>
 </html>
