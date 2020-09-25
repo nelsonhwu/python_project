@@ -14,9 +14,6 @@
     <div class="header">
         <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
     </div>
-    <div class="img"> 
-        <img src="{% static 'img/basic_img.jpg' %}" alt="img">
-    </div>
     <div class="body">
         <div class="body_left">
             <a href="/user_homepage">Home</a>
@@ -26,28 +23,72 @@
             <a href="/request_appointment">Request Appointment</a>
             <a href="#">Helpful Links</a>
         </div>
-        <div id="wall">
-            <h2>Latest News: </h2>
-            {% for bulletin in all_bulletin reversed %}
-                <h3>{{ bulletin.bulletin }}</h3>
+        <div class="body_right">
+            <div class="image">
+                <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+            </div>
+            <div><h4>Ace Art Academy</h4></div>
+        </div>
+    </div>
+    <div class="lower_body">
+        <div class="lower_body_left">
 
-                {% if bulletin.user.id == request.session.user_id %}
-                    <form action="/bulletin/{{bulletin.id}}/delete">
-                        {% csrf_token %}
-                        <button type="submit">Delete</button>
-                    </form>
-                {% endif %}
+            <h6>Your Classes:</h6>
+            <div class="class_list">
+                <table class="table">
+                    <thead><td>List of Classes:</td></thead>
+                    {% for class in all_classes %}
+                    <tr>
+                        <td>{{class.title}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
 
-            {% endfor %}
-
-            {% if user.access_level == 'teacher' %}
-            <form action="/bulletin/add_bulletin" method="POST">
-                {% csrf_token %}
-                <label for="bulletin">Post on Bulletin Board</label><br>
-                <textarea name="bulletin" id="bulletin" cols="50" rows="10"></textarea><br>
-                <button type="submit">Submit</button>
-            </form>
+            {% if user.access_level == "teacher" %}
+                <button type="button" class="btn btn-dark"><a href="#">Create A Class</a></button>
             {% endif %}
+        </div>
+        
+        <div class="lower_body_right">
+            <div class="bulletin">
+                <h4>Bulletin Board:</h4>
+                {% for bulletin in all_bulletin reversed %}
+                    <h3>{{bulletin.bulletin}}</h3>
+                    {% if bulletin.user.id == request.session.user_id %}
+                        <form action="/bulletin/{{bulletin.id}}/delete">
+                        {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary btn-sm mb-1">Delete</button>
+                        </form>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            {% if user.access_level == "teacher" %}
+                <div class="bulletin_text">
+                    <form action="/bulletin/add_bulletin" method="POST">
+                        {% csrf_token %}
+                        <div class="add_message">
+                            <div class="form-row">
+                                <div class="col-8">
+                                    <label class="sr-only" for="message_for_board"></label>
+                                    <input type="text" class="form-control mb-2" name="bulletin" id="message_for_board">
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary mb-2">Post</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+            
+            <div class="contact_info">
+                <p>Company Phone: (916) 223-4586 </p>
+                <p>Company Address: 100 Charming Ave </p>
+                <p>Company Email: AceArt@gmail.com </p>
+                <p>Company Social Media: #AceArt </p>
+            </div>
         </div>
     </div>
 </div>
