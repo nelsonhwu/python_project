@@ -33,50 +33,62 @@
         <div class="lower_body_left">
             <h6>Your Classes:</h6>
             <div class="class_list">
-                <table class="table">
-                    <thead><td>List of Classes:</td></thead>
+                <div class="list-group">
                     {% for class in all_classes %}
-                    <tr>
-                        <td>{{class.title}}</td>
-                    </tr>
+                    <a href="/class/{{class.id}}" class="list-group-item list-group-item-action">{{class.subject}}</a></td>
                     {% endfor %}
-                </table>
+                </div>
             </div>
+
             {% if user.access_level == "teacher" %}
-            <button type="button" class="btn btn-dark"><a href="#">Create A Class</a></button>
+                <button type="button" class="btn btn-dark"><a id="cac" href="/class/new">Create A Class</a></button>
             {% endif %}
         </div>
+        
         <div class="lower_body_right">
             <div class="bulletin">
                 <h4>Bulletin Board:</h4>
-                <p>Welcome to the First Day of Class!!!</p>
-                {% for message in all_board_messages %}
-                    <p>{{message.message}}</p>
+                {% for bulletin in all_bulletin reversed %}
+                    <li>{{bulletin.bulletin}} - {{bulletin.created_at}}</li>
+                    {% if bulletin.user.id == request.session.user_id %}
+                        <form action="/bulletin/{{bulletin.id}}/delete">
+                        {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary btn-sm mb-1">Delete</button>
+                        </form>
+                    {% endif %}
                 {% endfor %}
             </div>
+            
             {% if user.access_level == "teacher" %}
                 <div class="bulletin_text">
-                    <form action="" method="POST">
+                    <form action="/bulletin/add_bulletin" method="POST">
                         {% csrf_token %}
                         <div class="add_message">
                             <div class="form-row">
                                 <div class="col-8">
                                     <label class="sr-only" for="message_for_board"></label>
-                                    <input type="text" class="form-control mb-2" name="message_for_board" id="message_for_board">
+                                    <input type="text" class="form-control mb-2" name="bulletin" id="message_for_board">
                                 </div>
                                 <div class="col-2">
-                                    <button type="submit" class="btn btn-primary mb-2">New Message</button>
+                                    <button type="submit" class="btn btn-primary mb-2">Post</button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
             {% endif %}
+            
             <div class="contact_info">
-                <p>Company Phone: (916) 223-4586 </p>
-                <p>Company Address: 100 Charming Ave </p>
-                <p>Company Email: AceArt@gmail.com </p>
-                <p>Company Social Media: #AceArt </p>
+                <span id="com_name">Ace Art Academy</span>
+                <div id="com_ph_addr">
+                    <span>100 Charming Ave </span>
+                    <span>(916) 223-4586 </span>
+                </div>
+
+                <div id="com_e_med">
+                    <span>AceArt@gmail.com </span>
+                    <span style="margin-left: 10px;">Follow us on Facebook: #AceArt </span>
+                </div>
             </div>
         </div>
     </div>

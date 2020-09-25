@@ -5,10 +5,8 @@
 .container{
     margin: 10px auto;
     padding: 0px;
-    width: 1024px;
-    height: 768px;
-    border: black solid 1px;
-    background-image: linear-gradient(#e5c5c5,#b2b2b2);
+    width: 950px;
+    height: auto;
     border: black solid 1px;
     background-color: darkgray;
 }

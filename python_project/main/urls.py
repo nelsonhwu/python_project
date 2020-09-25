@@ -17,11 +17,8 @@ urlpatterns = [
     path('image/<int:image_id>/delete/<int:message_id>', views.delete_message),
     path('about_us', views.about_us),
     path('class_info', views.all_class),
-    
-
 
 ####################################################################
-
     path('', views.index),
     path('add_project/<int:class_id>', views.add_project),
     path('add_student/<int:class_id>', views.add_student),
