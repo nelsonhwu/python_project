@@ -99,4 +99,10 @@
 .add_message{
     margin: 5px 0px 0px 0px;
 }
+.nav {
+    display: flex;
+    justify-content: end;
+/*     border: black solid 1px;
+ */    padding: 0px 20px;
+}
 
