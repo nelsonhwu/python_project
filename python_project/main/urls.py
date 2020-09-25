@@ -32,7 +32,7 @@ urlpatterns = [
     path('add_user', views.add_user),
     path('login', views.login),
     path('log_in', views.log_in),
-    path('success', views.success),
+    # path('success', views.success),
     path('logout', views.logout),
     path('user_info',views.user),
     path('user_homepage', views.user_homepage),

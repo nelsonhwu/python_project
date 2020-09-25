@@ -10,13 +10,20 @@
     <title>Register</title>
 </head>
 <body>
-    {% if messages %}
-    <ul class="messages">    
+  <div class="messages">
+    {% if messages %}    
         {% for message in messages %}    
-            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+        <div class="alert alert-danger" role="alert">
+            <p>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+        </div>  
         {% endfor %}
-    </ul>
-    {% endif %}    
+    {% endif %}
+    {% if errors %}
+    <div class="alert alert-danger" role="alert">
+        <p>{{errors}}</p>
+    </div>
+    {% endif %}
+</div>  
 <div class="container">
     <div class="nav">
         <div class="reg">

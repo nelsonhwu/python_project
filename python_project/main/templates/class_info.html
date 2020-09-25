@@ -31,10 +31,17 @@
         <div class="lower_body">
             <div class="bulletin">
                 <h4>All Classes:</h4>
-                {% for class in all_class %}
+                {% if access_level != '5' %}
+                    {% for class in all_class %}
                     <li><a href="/class/{{class.id}}" >{{class.subject}}</a></li>
                     <p>Class Description: {{class.desc}}</p>
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    {% for class in all_class %}
+                        <li>{{class.subject}}</li>
+                        <p>Class Description: {{class.desc}}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
 
             
