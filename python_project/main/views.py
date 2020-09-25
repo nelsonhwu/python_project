@@ -170,17 +170,21 @@ def log_in(request): #2:15
         user = list_of_users[0]
         if bcrypt.checkpw(request.POST['password'].encode('utf-8'), user.password.encode()):
             request.session['user_id'] = user.id
-            return redirect('/user_homepage')
+            user = User.objects.get(id=request.session['user_id'])
+            context = {
+                'user' : user,
+            }
+            return render(request, "user_homepage.html", context)
         return redirect('/')
 
 def success(request): #2:15
     if 'user_id' not in request.session:
         return redirect('/')
-    logged_in_user = User.objects.get(id=request.session['user_id'])
+    user = User.objects.get(id=request.session['user_id'])
 
     all_relationships = Relationship.objects.all()
     context = {
-        'logged_in_user' : logged_in_user,
+        'user' : user,
         'all_relationships' : all_relationships,
     }
     return render(request, "user_homepage.html", context)

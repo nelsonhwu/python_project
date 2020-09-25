@@ -9,13 +9,9 @@
     <title>User Page</title>
 </head>
 <body>
-    
 <div class="container">
     <div class="header">
         <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
-    </div>
-    <div class="img"> 
-        <img src="{% static 'img/basic_img.jpg' %}" alt="img">
     </div>
     <div class="body">
         <div class="body_left">
@@ -27,46 +23,63 @@
             <a href="#">Helpful Links</a>
         </div>
         <div class="body_right">
-            <h3>Class Name</h3>
-            <div class="class_info">
-                <h6>Class info:</h6>
-                <h6>Description</h6>
-                <h6>Scheduled Class Time</h6>
+            <div class="image">
+                <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+            </div>
+            <div><h4>Ace Art Academy</h4></div>
+        </div>
+    </div>
+    <div class="lower_body">
+        <div class="lower_body_left">
+            <h6>Your Classes:</h6>
+            <div class="class_list">
+                <table class="table">
+                    <thead><td>List of Classes:</td></thead>
+                    {% for class in all_classes %}
+                    <tr>
+                        <td>{{class.title}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% if user.access_level == "teacher" %}
+            <button type="button" class="btn btn-dark"><a href="#">Create A Class</a></button>
+            {% endif %}
+        </div>
+        <div class="lower_body_right">
+            <div class="bulletin">
+                <h4>Bulletin Board:</h4>
+                <p>Welcome to the First Day of Class!!!</p>
+                {% for message in all_board_messages %}
+                    <p>{{message.message}}</p>
+                {% endfor %}
+            </div>
+            {% if user.access_level == "teacher" %}
+                <div class="bulletin_text">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="add_message">
+                            <div class="form-row">
+                                <div class="col-8">
+                                    <label class="sr-only" for="message_for_board"></label>
+                                    <input type="text" class="form-control mb-2" name="message_for_board" id="message_for_board">
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary mb-2">New Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+            <div class="contact_info">
+                <p>Company Phone: (916) 223-4586 </p>
+                <p>Company Address: 100 Charming Ave </p>
+                <p>Company Email: AceArt@gmail.com </p>
+                <p>Company Social Media: #AceArt </p>
             </div>
         </div>
     </div>
-    <div class="info">
-        <div class="info_left">
-            <h5>Projects</h5>
-                {% for project in all_projects %}
-                    <p>{{project.title}}</p>
-                {% endfor %}
-            {% for user in all_users %}
-                {% if user.access_level == 1 %}
-                    <button type="button" class="btn btn-info"><a href="/class/<int:class_id>">Add a project</a></button>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="info_right">
-            <h5>Students</h5>
-            {% for user in all_users %}
-                {% if user.access_level == 1 %}
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <select name="student" id="student">
-                            {% for student in all_users %}
-                                {% if student.access_level == 4 %}
-                                    <option value="{{student.id}}">{{student.first_name}} {{student.last_name}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select><br>
-                        <button type="button" class="btn btn-info">Add a student</button>
-                    </form>
-                {% endif %}
-            {% endfor %}
-        </div>
-    </div>
 </div>
-
 </body>
 </html>

@@ -16,15 +16,28 @@
     width: auto;
 }
 .body_left{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
     border: black solid 5px;
     border-radius: 5px;
     padding: 2px;
+    background-color: skyblue;
+}
+.body_left a:link{
+    border: black solid 1px;
+    margin: 10px 5px;
+    padding: 2px;
+    font-size: small;
+    background-color: white;
+    width: 150px;
 }
 .class_info{
     border: black solid 5px;
     border-radius: 5px;
     padding: 2px;
-    width: 400px;
 }
 .body_right h3{
     border-radius: 5px;
@@ -35,14 +48,21 @@
 .body_right{
     border-radius: 5px;
     padding: 2px;
-    width: 700px;
+    width: 800px;
+}
+.body_right h4{
+    text-align: center;
+    margin-top: 10px;
+    padding: 2px;
+    border: black solid 2px;
+    border-radius: 5px;
 }
 .info{
     margin-top: 10px;
     padding-left: 120px;
     width: 800px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 select{
     width: 200px;
@@ -57,4 +77,63 @@ button{
     padding: 2px;
     border-radius: 10px;
     text-align: center;
+}
+.image{
+    border: black solid 5px;
+    text-align: center;
+}
+.image img{
+    width: 250px;
+    height: 250px;
+    margin: 10px;
+}
+.lower_body{
+    display: flex;
+    justify-content: space-between;
+    font-size: small;
+}
+.lower_body_left{
+    margin: 10px 0px;
+    width: 150px;
+}
+.lower_body_left h6{
+    padding: 2px;
+    border: black solid 1px;
+    border-radius: 5px;
+    width: 175px;
+    text-align: center;
+}
+.class_list{
+    border: black solid 1px;
+    width: 175px;
+    height: 200px;
+    border-radius: 5px;
+}
+.lower_body_left button{
+    margin: 10px 0px;
+    width: 175px;
+}
+.lower_body_left a:any-link{
+    text-decoration: none;
+    color: white;
+}
+.bulletin{
+    border: black solid 2px;
+    width: 800px;
+    height: 225px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: skyblue;
+}
+.contact_info{
+    margin: 10px 0px 0px 0px;
+    width: auto;
+}
+.contact_info p{
+    border: black solid 1px;
+    margin: 0px;
+    padding-left: 5px;
+}
+.add_message{
+    margin: 5px 0px 0px 0px;
 }
