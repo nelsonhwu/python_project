@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <title>Edit Class</title>
+    <title>Document</title>
 </head>
 <body>
-    <div class="img"> 
-        <img src="{% static 'img/basic_img.jpg' %}" alt="img">
-    </div>
-    <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
+    <h1>Welcome, {{user.first_name}}</h1>
+    <a href="#">Logout</a>
+    <hr>
     <div id="navigation">
         <a href="/user_homepage">Home</a>
         <a href="/about_us">About Us</a>

@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <title>Class: {{this_class.subject}}</title>
+    <title>Document</title>
 </head>
 <body>
-    <div class="img"> 
-        <img src="{% static 'img/basic_img.jpg' %}" alt="img">
-    </div>
-    <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
+    <h1>Welcome, {{user.first_name}}</h1>
+    <a href="/logout">Logout</a>
+    <hr>
     <div id="navigation">
         <a href="/user_homepage">Home</a>
         <a href="/about_us">About Us</a>
@@ -54,14 +52,6 @@
                 <input type="submit" value="Create Project">
             </form>
         {% endif %}
-        
-        {% if messages %}
-            <ul class="messages">    
-            {% for message in messages %}    
-                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
-            {% endfor %}
-            </ul>
-        {% endif %}
     </div>
     <div id="students">
         <h3>Students: </h3>
@@ -72,7 +62,6 @@
         </ul>
         {% if user.access_level == 'teacher' %}
             <p>Add Student to class</p>
-            
             <form action="/add_student/{{this_class.id}}" method="post">
                 {% csrf_token %}
                 <select name="list_of_students" id="list_of_students">
@@ -85,8 +74,6 @@
                 <input type="submit" value="Add Student">
             </form>
         {% endif %}
-
-        
     </div>
     
 </body>

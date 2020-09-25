@@ -9,7 +9,6 @@
     <title>User Page</title>
 </head>
 <body>
-    
 <div class="container">
     <div class="header">
         <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
@@ -34,51 +33,45 @@
         <div class="lower_body_left">
             <h6>Your Classes:</h6>
             <div class="class_list">
-                <div class="list-group">
+                <table class="table">
+                    <thead><td>List of Classes:</td></thead>
                     {% for class in all_classes %}
-                    <a href="/class/{{class.id}}" class="list-group-item list-group-item-action">{{class.subject}}</a></td>
+                    <tr>
+                        <td>{{class.title}}</td>
+                    </tr>
                     {% endfor %}
-                </div>
+                </table>
             </div>
-
             {% if user.access_level == "teacher" %}
-                <button type="button" class="btn btn-dark"><a href="/class/new">Create A Class</a></button>
+            <button type="button" class="btn btn-dark"><a href="#">Create A Class</a></button>
             {% endif %}
         </div>
-        
         <div class="lower_body_right">
             <div class="bulletin">
                 <h4>Bulletin Board:</h4>
-                {% for bulletin in all_bulletin reversed %}
-                    <h3>{{bulletin.bulletin}}</h3>
-                    {% if bulletin.user.id == request.session.user_id %}
-                        <form action="/bulletin/{{bulletin.id}}/delete">
-                        {% csrf_token %}
-                            <button type="submit" class="btn btn-secondary btn-sm mb-1">Delete</button>
-                        </form>
-                    {% endif %}
+                <p>Welcome to the First Day of Class!!!</p>
+                {% for message in all_board_messages %}
+                    <p>{{message.message}}</p>
                 {% endfor %}
             </div>
-            
             {% if user.access_level == "teacher" %}
                 <div class="bulletin_text">
-                    <form action="/bulletin/add_bulletin" method="POST">
+                    <form action="" method="POST">
                         {% csrf_token %}
                         <div class="add_message">
                             <div class="form-row">
                                 <div class="col-8">
                                     <label class="sr-only" for="message_for_board"></label>
-                                    <input type="text" class="form-control mb-2" name="bulletin" id="message_for_board">
+                                    <input type="text" class="form-control mb-2" name="message_for_board" id="message_for_board">
                                 </div>
                                 <div class="col-2">
-                                    <button type="submit" class="btn btn-primary mb-2">Post</button>
+                                    <button type="submit" class="btn btn-primary mb-2">New Message</button>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
             {% endif %}
-            
             <div class="contact_info">
                 <p>Company Phone: (916) 223-4586 </p>
                 <p>Company Address: 100 Charming Ave </p>
@@ -88,6 +81,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

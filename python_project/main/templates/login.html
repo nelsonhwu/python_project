@@ -9,13 +9,20 @@
     <title>Login</title>
 </head>
 <body>
-    {% if messages %}
-    <ul class="messages">    
-        {% for message in messages %}    
-            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <div class="messages">
+        {% if messages %}    
+            {% for message in messages %}    
+            <div class="alert alert-danger" role="alert">
+                <p>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            </div>  
+            {% endfor %}
+        {% endif %}
+        {% if errors %}
+        <div class="alert alert-danger" role="alert">
+            <p>{{errors}}</p>
+        </div>
+        {% endif %}
+    </div> 
 <div class="container">
     <div class="nav">
         <div>
@@ -23,7 +30,7 @@
         </div>
         <div>
         <a href="/">Back to Homepage</a>
-        | <a href="/request_appointment">Contact us</a>
+        <a href="/request_appointment">Contact us</a>
         </div>
     </div>
     <div class="body" >

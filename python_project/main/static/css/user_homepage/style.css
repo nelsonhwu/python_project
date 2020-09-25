@@ -109,15 +109,14 @@ button{
     height: 200px;
     border-radius: 5px;
 }
-.lower_body_left a:any-link {
-    text-decoration: none;
-    color:black;
-}
 .lower_body_left button{
     margin: 10px 0px;
     width: 175px;
 }
-
+.lower_body_left a:any-link{
+    text-decoration: none;
+    color: white;
+}
 .bulletin{
     border: black solid 2px;
     width: 800px;
@@ -125,9 +124,7 @@ button{
     text-align: center;
     border-radius: 5px;
     background-color: skyblue;
-    overflow: scroll;
 }
-
 .contact_info{
     margin: 10px 0px 0px 0px;
     width: auto;
