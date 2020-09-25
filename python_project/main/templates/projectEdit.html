@@ -29,37 +29,39 @@
                 </div>
             </div>
 
-            <div id="project_edit">
+            <div style="margin: 30px 0;" id="project_edit">
                 <form action="/process_edit_project/{{cur_proj.id}}" method="POST">
                     {% csrf_token %}
-                    <div>
-                        <label for="title">Title: </label>
-                        <input type="text" name="title" id="title">
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="title">Title: </label>
+                            <input class="form-control" type="text" name="title" id="title">
+                        </div>
+    
+                        <div class="col-md-4 mb-3">
+                            <label for="due_date">Deadline: </label>
+                            <input class="form-control" type="datetime-local" name="due_date" id="due_date">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="course">Choose a class for this project: </label>
+                            <select class="form-control" name="course" id="course">
+                                <option value="">Pick a Class</option>
+                                {% for course in all_classes %}
+                                <option value="{{course.id}}">{{course.subject}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
 
-                    <div>
-                        <label for="due_date">Deadline: </label>
-                        <input type="datetime-local" name="due_date" id="due_date">
-                    </div>
-
-                    <div>
+                    <div class="form-group">
                         <p for="desc">Description:</p>
-                        <textarea name="desc" id="desc" cols="50" rows="10"></textarea>
+                        <textarea class="form-control" rows="3" name="desc" id="desc"></textarea>
                     </div>
 
                     <div>
-                        <p>Choose a class for this project: </p>
-                        <select name="course" id="course">
-                            <option value="">Pick a Class</option>
-                            {% for course in all_classes %}
-                            <option value="{{course.id}}">{{course.subject}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-
-                    <div>
-                        <input type="submit" name="submit" value="Update Project">
-                        <button><a href="/project_detail/{{cur_proj.id}}">Cancle</a></button>
+                        <input class="btn btn-primary mb-2" type="submit" name="submit" value="Update Project">
+                        <button class="btn btn-danger mb-2"><a style="color: white; text-decoration: none;" href="/project_detail/{{cur_proj.id}}">Cancle</a></button>
                     </div>
                 </form>
 

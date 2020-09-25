@@ -173,3 +173,7 @@ button{
 .list-group a{
     color: black;
 }
+
+label{
+    font-size: 0.9rem;
+}
