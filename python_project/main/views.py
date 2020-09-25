@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect
-from .models import User, Class, Project, Message, Comment, Image, Relationship
+from .models import User, Class, Project, Message, Comment, Image, Relationship, Bulletin_board
 import bcrypt
 from datetime import date, datetime, timezone
 from django.contrib import messages
@@ -19,6 +19,11 @@ def index(request):
     return render(request, "user_homepage.html")
 
 def add_project(request, class_id):
+    errors = Project.objects.new_project_validation(request.POST)
+    if len(errors) > 0:
+        for value in errors.values():
+            messages.error(request, value, extra_tags="edit_proj_err")
+        return redirect(f"/class/{class_id}")
     current_class = Class.objects.get(id=class_id)
     title = request.POST['title']
     due_date = request.POST['due_date']
@@ -33,6 +38,11 @@ def add_project(request, class_id):
     return redirect(f'/class/{class_id}')
 
 def add_student(request, class_id):
+    errors = User.objects.add_student_validation(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request,value)
+        return redirect(f'/class/{class_id}')
     current_class = Class.objects.get(id=class_id)
     new_student_id = request.POST['list_of_students']
     new_student = User.objects.get(id=new_student_id)
@@ -139,8 +149,16 @@ def add_user(request): #2:15
         for msg in errors.values():
             messages.error(request, msg)
         return redirect('/register')
+    
+    #check for unique email address
+    list_of_emails = User.objects.filter(email=request.POST['email'])
+    if len(list_of_emails) > 0:
+        messages.error(request, "Email already taken, please try another one")
+        return redirect('/')
+
     password = request.POST['password']
     pw_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode()
+
     new_user = User.objects.create(
         first_name = request.POST['first_name'],
         last_name = request.POST['last_name'],
@@ -154,7 +172,7 @@ def add_user(request): #2:15
         access_level = request.POST['access_level']
     )
     request.session['user_id'] = new_user.id
-    return redirect('/success')
+    return redirect('/user_homepage')
 
 def login(request):  #2:15
     return render(request, "login.html")
@@ -202,6 +220,7 @@ def user_homepage(request):
     logged_in_user = User.objects.get(id=request.session['user_id'])
     context = {
         'user':logged_in_user,
+        'all_bulletin': Bulletin_board.objects.all(),
     }
     return render(request, "user_homepage.html", context)
 
@@ -220,11 +239,16 @@ def image_viewer(request, image_id): #2:15
         'all_messages': Message.objects.all(),
         'all_comments': Comment.objects.all(),
     }
+
     return render(request, 'viewer.html', context)
 
 def add_message(request, image_id): #2:15
     message = request.POST['message']
-    Message.objects.create(message = message, user = User.objects.get(id=request.session['user_id']))
+    Message.objects.create(
+        message = message, 
+        user = User.objects.get(id=request.session['user_id']), 
+        image_comment = Image.objects.get(id=image_id)
+        )
     return redirect(f'/image/{image_id}')
 
 def add_comment(request, image_id): #2:15
@@ -263,7 +287,18 @@ def add_relation(request):
     else:
         return redirect("/success")
 
+def add_bulletin(request):
+    bulletin = request.POST['bulletin']
+    Bulletin_board.objects.create(
+        bulletin = bulletin,
+        user = User.objects.get(id=request.session['user_id'])
+    )
+    return redirect('/user_homepage')
 
+def delete_bulletin(request, bulletin_id):
+    bulletin = Bulletin_board.objects.get(id=bulletin_id)
+    bulletin.delete()
+    return redirect('/user_homepage')
 
 
 
@@ -354,7 +389,8 @@ def process_upload(request, project_id):
 
     errors = Project.objects.upload_image_validation(request.POST)
     if len(request.FILES["picture"]) ==0:
-        errors["picture"] = "You must include you work to submit!"
+        errors["picture"] = "You must include your work to submit!"
+        return redirect(f'/project_detail/{project_id}')
     if len(errors) > 0:
             for value in errors.values():
                 messages.error(request, value, extra_tags="upload_img_err")

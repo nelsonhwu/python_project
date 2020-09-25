@@ -26,44 +26,28 @@
             <a href="/request_appointment">Request Appointment</a>
             <a href="#">Helpful Links</a>
         </div>
-        <div class="body_right">
-            <h3>Class Name</h3>
-            <div class="class_info">
-                <h6>Class info:</h6>
-                <h6>Description</h6>
-                <h6>Scheduled Class Time</h6>
-            </div>
-        </div>
-    </div>
-    <div class="info">
-        <div class="info_left">
-            <h5>Projects</h5>
-                {% for project in all_projects %}
-                    <p>{{project.title}}</p>
-                {% endfor %}
-            {% for user in all_users %}
-                {% if user.access_level == 1 %}
-                    <button type="button" class="btn btn-info"><a href="/class/<int:class_id>">Add a project</a></button>
-                {% endif %}
-            {% endfor %}
-        </div>
-        <div class="info_right">
-            <h5>Students</h5>
-            {% for user in all_users %}
-                {% if user.access_level == 1 %}
-                    <form action="" method="POST">
+        <div id="wall">
+            <h2>Latest News: </h2>
+            {% for bulletin in all_bulletin reversed %}
+                <h3>{{ bulletin.bulletin }}</h3>
+
+                {% if bulletin.user.id == request.session.user_id %}
+                    <form action="/bulletin/{{bulletin.id}}/delete">
                         {% csrf_token %}
-                        <select name="student" id="student">
-                            {% for student in all_users %}
-                                {% if student.access_level == 4 %}
-                                    <option value="{{student.id}}">{{student.first_name}} {{student.last_name}}</option>
-                                {% endif %}
-                            {% endfor %}
-                        </select><br>
-                        <button type="button" class="btn btn-info">Add a student</button>
+                        <button type="submit">Delete</button>
                     </form>
                 {% endif %}
+
             {% endfor %}
+
+            {% if user.access_level == 'teacher' %}
+            <form action="/bulletin/add_bulletin" method="POST">
+                {% csrf_token %}
+                <label for="bulletin">Post on Bulletin Board</label><br>
+                <textarea name="bulletin" id="bulletin" cols="50" rows="10"></textarea><br>
+                <button type="submit">Submit</button>
+            </form>
+            {% endif %}
         </div>
     </div>
 </div>

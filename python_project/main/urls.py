@@ -17,7 +17,8 @@ urlpatterns = [
     path('image/<int:image_id>/delete/<int:message_id>', views.delete_message),
     path('about_us', views.about_us),
     path('class_info', views.all_class),
-    
+    path('bulletin/add_bulletin', views.add_bulletin),
+    path('bulletin/<int:bulletin_id>/delete', views.delete_bulletin),
 
 
 ####################################################################

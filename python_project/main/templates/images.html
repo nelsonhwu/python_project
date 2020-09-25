@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    {% load static %}
+    <title>All Images</title>
 </head>
 <body>
-    <h1>Welcome, {{user.first_name}}</h1>
-    <a href="/logout">Logout</a>
-    <hr>
+    <div class="img"> 
+        <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+    </div>
+    <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
     <div id="navigation">
         <a href="/user_homepage">Home</a>
         <a href="/about_us">About Us</a>
@@ -19,7 +21,7 @@
     </div>
     <div id="image">
         {% for image in all_images %}
-            <img width="200" height="200" src="{{image.picture.url}}" alt="Project_Image">
+            <a href="/image/{{image.id}}"><img width="200" height="200" src="{{image.picture.url}}" alt="Project_Image"></a>
             <p><a href="/image/{{image.id}}">{{image.title}}</a></p>
             <p><a href="#">By: {{image.submitter.first_name}}</a><br></p>
         {% endfor %}
