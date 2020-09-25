@@ -65,6 +65,7 @@
                     {% endif %}
                 </div>
 
+                {% if logged_user.access_level != "student"  %}
                 <form action="/process_upload/{{cur_proj.id}}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-row"> 
@@ -72,7 +73,7 @@
                             <label for="title">Title: </label>
                             <input class="form-control" type="text" name="title" id="title">
                         </div>
-    
+                        
                         <div class="col-md-4 mb-3">
                             <label for="picture">Upload your art work here: </label>
                             <input class="form-control" type="file" name="picture" id="picture">
@@ -81,9 +82,10 @@
                     <input type="hidden" name="submitter" value="{{logged_user.id}}">
                     <input class="btn btn-primary mb-2" type="submit" name="submit" id="submit" value="Submit">
                 </form>
-
+                {% endif %}
+                
             </div>
-
+            
             <div class="contact_info">
                 <span id="com_name">Ace Art Academy</span>
                 <div id="com_ph_addr">

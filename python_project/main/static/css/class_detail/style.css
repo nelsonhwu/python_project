@@ -160,3 +160,25 @@ button{
 .list-group a{
     color: black;
 }
+#assgin_proj_student{
+    display: flex;
+    border:2px rgb(156, 156, 156) solid; 
+    border-radius: 5px;
+    margin: 20px 0;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 987px;
+}
+
+.assgin{
+    padding: 20px 20px 10px 20px; 
+    width: 30%;
+}
+.sub_assign{
+    overflow: auto;
+}
+
+#assgin_proj_student li{
+    margin-left: 20px;
+}
+

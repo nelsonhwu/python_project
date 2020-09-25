@@ -2,7 +2,6 @@
     margin: 0px;
     padding: 0px;
 }
-
 .container{
     width: 1024px;
     /* height: 768px; */
@@ -11,7 +10,9 @@
     border-right: rgb(199, 230, 243) solid 3px;
     background-image: linear-gradient(to bottom left, rgba(199, 230, 243), rgba(199, 230, 243, 0));
 }
-
+.header{
+    text-align: right;
+}
 .body{
     display: flex;
     justify-content: space-between;
@@ -46,14 +47,51 @@
     /* background-color: white; */
     width: 150px;
 }
-
+.class_info{
+    border:  rgb(156, 156, 156) solid 5px;
+    border-radius: 5px;
+    padding: 2px;
+}
+.body_right h3{
+    border-radius: 5px;
+    padding: 2px;
+    width: 400px;
+    border: rgb(156, 156, 156) solid 5px;
+}
 .body_right{
     border-radius: 5px;
     padding: 2px;
     width: 800px;
 }
-
-
+.body_right h4{
+    text-align: center;
+    margin-top: 10px;
+    padding: 2px;
+    /* border: black solid 2px; */
+    border-radius: 5px;
+    color: rgb(7, 97, 109);;
+}
+.info{
+    margin-top: 10px;
+    padding-left: 120px;
+    width: 800px;
+    display: flex;
+    justify-content: space-between;
+}
+select{
+    width: 200px;
+}
+button{
+    width: 200px;
+}
+.info_left, .info_right{
+    width: 300px;
+    height: auto;
+    border:  rgb(156, 156, 156) solid 2px;
+    padding: 2px;
+    border-radius: 10px;
+    text-align: center;
+}
 .image{
     background-color: white;
     /* border: black solid 5px; */
@@ -66,14 +104,40 @@
 }
 .lower_body{
     font-size: small;
-    margin-top: 30px;
 }
+.lower_body_left{
+    margin: 10px 0px;
+    width: 150px;
+}
+.lower_body h4{
 
-.lower_body h1, h4, p{
-    margin-top: 10px;
+    color: rgb(7, 97, 109);
+}
+.class_list{
+    /* border:  rgb(156, 156, 156) solid 1px; */
+    width: 175px;
+    height: 200px;
+    border-radius: 5px;
+    overflow: auto;
+}
+.lower_body_left button{
+    margin: 10px 0px;
+    width: 175px;
+}
+#cac{
+    text-decoration: none;
+    color: white;
+}
+.bulletin{
+    margin: 30px 0 30px 0;
+    padding: 10px;
+    border:  rgb(156, 156, 156) solid 2px;
+    /* width: 800px; */
+    height: 225px;
     text-align: center;
+    border-radius: 5px;
+    overflow: auto;
 }
-
 .contact_info{
     /* position: fixed; */
     margin: 10px 0px 0px 0px;
@@ -99,13 +163,17 @@
 .add_message{
     margin: 5px 0px 0px 0px;
 }
-#image{
-    margin-top: 20px;
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    width: 987px;
-    justify-items: center;
-    align-items: center;
 
+.bulletin li{
+    margin-top: 10px;
+    font-size: 1.0rem;
+    font-weight: bold;
+}
+
+.list-group a{
+    color: black;
+}
+
+label{
+    font-size: 0.9rem;
 }
