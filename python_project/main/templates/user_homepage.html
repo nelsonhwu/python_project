@@ -32,21 +32,17 @@
     </div>
     <div class="lower_body">
         <div class="lower_body_left">
-
             <h6>Your Classes:</h6>
             <div class="class_list">
-                <table class="table">
-                    <thead><td>List of Classes:</td></thead>
+                <div class="list-group">
                     {% for class in all_classes %}
-                    <tr>
-                        <td>{{class.title}}</td>
-                    </tr>
+                    <a href="/class/{{class.id}}" class="list-group-item list-group-item-action">{{class.subject}}</a></td>
                     {% endfor %}
-                </table>
+                </div>
             </div>
 
             {% if user.access_level == "teacher" %}
-                <button type="button" class="btn btn-dark"><a href="#">Create A Class</a></button>
+                <button type="button" class="btn btn-dark"><a href="/class/new">Create A Class</a></button>
             {% endif %}
         </div>
         

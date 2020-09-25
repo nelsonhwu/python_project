@@ -197,9 +197,11 @@ def success(request): #2:15
     logged_in_user = User.objects.get(id=request.session['user_id'])
 
     all_relationships = Relationship.objects.all()
+    all_classes = Class.objects.all()
     context = {
         'logged_in_user' : logged_in_user,
         'all_relationships' : all_relationships,
+        'all_classes' : all_classes,
     }
     return render(request, "user_homepage.html", context)
 
@@ -218,9 +220,11 @@ def user_homepage(request):
     if 'user_id' not in request.session:
         return redirect('/')
     logged_in_user = User.objects.get(id=request.session['user_id'])
+    all_classes = Class.objects.all()
     context = {
         'user':logged_in_user,
         'all_bulletin': Bulletin_board.objects.all(),
+        'all_classes' : all_classes,
     }
     return render(request, "user_homepage.html", context)
 
