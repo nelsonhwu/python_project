@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user_info/style.css' %}" />
+    <title>user_info</title>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <p><a href="/user_homepage">Home</a> | <a href="/edit_account/{{logged_in_user.id}}">Edit Profile</a> | <a href="/logout">Log out</a></p> 
+        </div>
+        <div class="body">
+            <div class="image">
+                <img src="{% static 'img/profile1.png' %}" alt="logo_img">
+            </div>
+            <div class="body_info">
+                <ul>
+                    {% if logged_in_user.access_level == "teacher" %}
+                    <li>Teacher Info: {{logged_in_user.first_name}} {{logged_in_user.last_name}} </li>
+                    {% elif logged_in_user.access_level == "parent" %}
+                    <li>Parent Info: {{logged_in_user.first_name}} {{logged_in_user.last_name}}</li>
+                    {% else %}
+                    <li>Student Info: {{logged_in_user.first_name}} {{logged_in_user.last_name}}</li>
+                    {% endif %}
+                    <li>ID: {{logged_in_user.id}}</li>
+                    <li>Email: {{logged_in_user.email}}</li>
+                    <li>Address: {{logged_in_user.street_address}} {{logged_in_user.city}} {{logged_in_user.zip_code}} {{</li>
+                    <li>Class:</li>
+                    <li>Parent:</li>
+                    <li>Account Type: {{logged_in_user.access_level}}</li>
+                    <li>Related User(s):
+                        <ul>
+                            {% for relationship in all_relationships %}
+                                {% if relationship.from_user == logged_in_user %}
+                                <li> {{relationship.to_user.first_name}} {{relationship.to_user.last_name}}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div> 
+</body>
+</html>

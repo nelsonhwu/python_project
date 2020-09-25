@@ -1,0 +1,54 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body{
+    position: relative;
+}
+
+img{
+    width: 855px;
+    height: 697px;
+    filter: grayscale(100%);
+    margin: auto;
+    display:block;
+    /* border: 1px solid black; */
+}
+
+.front{
+    /* border: 1px solid black; */
+    position: absolute;
+    width: 848px;
+    height: 688px;
+    left: 442.387px;
+    /* right: 338px; */
+    top: 52px;
+    background-repeat: no-repeat;
+    background-size: 848px, 688px;
+}
+
+
+.nav{
+    /* position: absolute; */
+    /* top: 100px; */
+    padding: 0px 100px;
+    display: flex;
+    justify-content: space-between;
+}
+.nav p{
+    /* border: black solid 2px; */
+    margin: 10px 2px;
+    padding: 2px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: cornflowerblue;
+}
+.nav p a{
+    text-decoration: none;
+    color: cornflowerblue;
+}
+
+.nav p a:hover{
+    color: crimson;
+}

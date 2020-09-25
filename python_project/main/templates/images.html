@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/view_all/style.css' %}" />
+    <title>All Images</title>
+</head>
+<body>
+    <div class="container">
+        <div class="body">
+            <div class="body_left">
+                <a href="/user_homepage">Home</a>
+                <a href="/about_us">About Us</a>
+                <a href="/image/all">Project Showcase</a>
+                <a href="/class_info">Class Info</a>
+                <a href="/request_appointment">Request Appointment</a>
+                <a href="#">Helpful Links</a>
+            </div>
+            <div class="body_right">
+                <div class="image">
+                    <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+                </div>
+            </div>
+        </div>
+        <div id="image">
+            {% for image in all_images %}
+                {% if access_level != '5' %}
+                    <div>
+                        <a href="/image/{{image.id}}"><img width="200" height="200" src="{{image.picture.url}}" alt="Project_Image"></a>
+                        <p><a href="/image/{{image.id}}">{{image.title}}</a></p>
+                        <p><a href="#">By: {{image.submitter.first_name}}</a><br></p>
+                    </div>
+                {% else %}
+                    <div>
+                        <img width="200" height="200" src="{{image.picture.url}}" alt="Project_Image">
+                        <p>{{image.title}}</p>
+                        <p>By: {{image.submitter.first_name}}<br></p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="contact_info">
+            <span id="com_name">Ace Art Academy</span>
+            <div id="com_ph_addr">
+                <span>100 Charming Ave </span>
+                <span>(916) 223-4586 </span>
+            </div>
+        
+            <div id="com_e_med">
+                <span>AceArt@gmail.com </span>
+                <span style="margin-left: 10px;">Follow us on Facebook: #AceArt </span>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

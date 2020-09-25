@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/project_detail/style.css' %}" />
+        <title>Project Detail</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <p><a href="/user_info">{{logged_user.first_name}}</a> | <a href="/logout">Logout</a></p>
+            </div>
+            <div class="body">
+                <div class="body_left">
+                    <a href="/user_homepage">Home</a>
+                    <a href="/about_us">About Us</a>
+                    <a href="/image/all">Project Showcase</a>
+                    <a href="/class_info">Class Info</a>
+                    <a href="/request_appointment">Request Appointment</a>
+                    <a href="#">Helpful Links</a>
+                </div>
+                <div class="body_right">
+                    <div class="image">
+                        <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+                    </div>
+                </div>
+            </div>
+            <div class="lower_body">
+                <div class="bulletin">
+                    {% if logged_user in cur_proj.reviewed_by_user.all %}
+                    <h4>{{cur_proj.title}} (Project Completed)</h4>
+                    {% else %}
+                    <h4>{{cur_proj.title}}</h4>
+                    {% endif %}
+
+                    <P>Assigned Class: {{cur_proj.course.subject}}</P>
+                    <P>Deadline: {{cur_proj.due_date|date:"f a F j, Y"}}</P>
+                    <P>Description: {{cur_proj.desc}}</P>
+                    <p>This project currently has {{total_images}} art works.</p>
+                </div>
+            </div>
+
+            <div id="project_info">
+                
+                {% if logged_user in cur_proj.reviewed_by_user.all %}
+                <span class="btn btn-primary mb-2"><a class="cac" href="/process_unreviewed/{{cur_proj.id}}">Click to unmark finished this project</a></span>
+                {% else %}
+                <span class="btn btn-primary mb-2"><a class="cac" href="/process_reviewed/{{cur_proj.id}}">Click to mark finished this project</a></span>
+                {% endif %}
+                
+
+                <span class="btn btn-primary mb-2"><a class="cac" href="/image/all">Show All Art Work</a></span>
+                <span class="btn btn-primary mb-2"><a class="cac" href="/edit_project/{{cur_proj.id}}">Edit This Project</a></span>
+ 
+                <div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "upload_img_err" in message.tags %}
+                                <li>{{message}}</li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                {% if logged_user.access_level != "student"  %}
+                <form action="/process_upload/{{cur_proj.id}}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-row"> 
+                        <div class="col-md-4 mb-3">
+                            <label for="title">Title: </label>
+                            <input class="form-control" type="text" name="title" id="title">
+                        </div>
+    
+                        <div class="col-md-4 mb-3">
+                            <label for="picture">Upload your art work here: </label>
+                            <input class="form-control" type="file" name="picture" id="picture">
+                        </div>
+                    </div>
+                    <input type="hidden" name="submitter" value="{{logged_user.id}}">
+                    <input class="btn btn-primary mb-2" type="submit" name="submit" id="submit" value="Submit">
+                </form>
+                {% endif %}
+            </div>
+
+            <div class="contact_info">
+                <span id="com_name">Ace Art Academy</span>
+                <div id="com_ph_addr">
+                    <span>100 Charming Ave </span>
+                    <span>(916) 223-4586 </span>
+                </div>
+
+                <div id="com_e_med">
+                    <span>AceArt@gmail.com </span>
+                    <span style="margin-left: 10px;">Follow us on Facebook: #AceArt </span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Welcome, {{user.first_name}}</h1>
+    <a href="#">Logout</a>
+    <hr>
+    <div id="navigation">
+        <a href="#">Home</a>
+        <a href="/about_us">About Us</a>
+        <a href="/image/all">Project Showcase</a>
+        <a href="/class_info">Class Info</a>
+        <a href="/request_appointment">Request Appointment</a>
+        <a href="#">Helpful Links</a>
+    </div>
+    <div id="create">
+        <form action="/class/create" method="post">
+            {% csrf_token %}
+            <label for="subject">Subject: </label>
+            <input type="text" name="subject" id="subject"><br>
+            <label for="start_date">Start Date: </label>
+            <input type="date" name="start_date" id="start_date"><br>
+            <label for="end_date">End Date: </label>
+            <input type="date" name="end_date" id="end_date"><br>
+            <label for="schedule_day">Schedule Day: </label>
+            <select name="schedule_day" id="schedule_day">
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+            </select><br>
+            <label for="schedule_time">Schedule Time: </label>
+            <input type="time" name="schedule_time" id="schedule_time" min="09:00" max="18:00"><br>
+            <label for="desc">Description: </label>
+            <textarea name="desc" id="desc" cols="50" rows="10"></textarea><br>
+            <input type="submit" value="Create Class">
+        </form>
+    </div>
+</body>
+</html>

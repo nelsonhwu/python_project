@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user_homepage/style.css' %}" />
+    <title>User Page</title>
+</head>
+<body>
+    
+<div class="container">
+    <div class="header">
+        <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
+    </div>
+    <div class="body">
+        <div class="body_left">
+            <a href="/user_homepage">Home</a>
+            <a href="/about_us">About Us</a>
+            <a href="/image/all">Project Showcase</a>
+            <a href="/class_info">Class Info</a>
+            <a href="/request_appointment">Request Appointment</a>
+            <a href="#">Helpful Links</a>
+        </div>
+        <div class="body_right">
+            <div class="image">
+                <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+            </div>
+            <div><h4>Ace Art Academy</h4></div>
+        </div>
+    </div>
+    <div class="lower_body">
+        <div class="lower_body_left">
+            <h6>My Classes:</h6>
+            <div class="class_list">
+                <div class="list-group">
+                    {% if user.access_level == 'teacher' %}
+                    {% for class in all_classes %}
+                    <a href="/class/{{class.id}}" class="list-group-item list-group-item-action">{{class.subject}}</a></td>
+                    {% endfor %}
+
+                    {%else%}
+                    {% for class in user.parent_classes.all %}
+                    <a href="/class/{{class.id}}" class="list-group-item list-group-item-action">{{class.subject}}</a></td>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if user.access_level == "teacher" %}
+                <button type="button" class="btn btn-dark"><a id="cac" href="/class_info">Create A Class</a></button>
+            {% endif %}
+        </div>
+        
+        <div class="lower_body_right">
+            <div class="bulletin">
+                <h4>Bulletin Board:</h4>
+                {% for bulletin in all_bulletin reversed %}
+                    <li>{{bulletin.bulletin}} - {{bulletin.created_at}}</li>
+                    {% if bulletin.user.id == request.session.user_id %}
+                        <form action="/bulletin/{{bulletin.id}}/delete">
+                        {% csrf_token %}
+                            <button type="submit" class="btn btn-secondary btn-sm mb-1">Delete</button>
+                        </form>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            {% if user.access_level == "teacher" %}
+                <div class="bulletin_text">
+                    <form action="/bulletin/add_bulletin" method="POST">
+                        {% csrf_token %}
+                        <div class="add_message">
+                            <div class="form-row">
+                                <div class="col-8">
+                                    <label class="sr-only" for="message_for_board"></label>
+                                    <input type="text" class="form-control mb-2" name="bulletin" id="message_for_board">
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary mb-2">Post</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+            
+            <div class="contact_info">
+                <span id="com_name">Ace Art Academy</span>
+                <div id="com_ph_addr">
+                    <span>100 Charming Ave </span>
+                    <span>(916) 223-4586 </span>
+                </div>
+
+                <div id="com_e_med">
+                    <span>AceArt@gmail.com </span>
+                    <span style="margin-left: 10px;">Follow us on Facebook: #AceArt </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

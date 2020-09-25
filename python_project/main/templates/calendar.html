@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/calendar/style.css' %}" />
+    <title>Request Appointment</title>
+</head>
+<body>
+    <div class="container">
+        <div class="body">
+            <div class="body_left">
+                <a href="/user_homepage">Home</a>
+                <a href="/about_us">About Us</a>
+                <a href="/image/all">Project Showcase</a>
+                <a href="/class_info">Class Info</a>
+                <a href="/request_appointment">Request Appointment</a>
+                <a href="#">Helpful Links</a>
+            </div>
+            <div class="body_right">
+                <div class="image">
+                    <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+                </div>
+            </div>
+        </div>
+        <h2 style="text-align:center; padding-top:50px;">Request an appointment below!</h2>
+        <!-- Calendly inline widget begin -->
+        <div class="calendly-inline-widget" data-url="https://calendly.com/python_project" style="min-width:320px;height:630px;"></div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script>
+        <!-- Calendly inline widget end -->
+
+        <div class="contact_info">
+            <span id="com_name">Ace Art Academy</span>
+            <div id="com_ph_addr">
+                <span>100 Charming Ave </span>
+                <span>(916) 223-4586 </span>
+            </div>
+        
+            <div id="com_e_med">
+                <span>AceArt@gmail.com </span>
+                <span style="margin-left: 10px;">Follow us on Facebook: #AceArt </span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user_page/style.css' %}" />
+    <title>Successful</title>
+</head>
+<body>
+    <div class="container">
+        <div class="nav">
+            <p><a href="/user_info">User Info</a>  | <a href="/logout">Log Out</a></p>   
+        </div>
+        <div class="body">
+            <h1>Welcome {{logged_in_user.first_name}}, You have successfully logged or registered.</h1>
+            <form action="/add_relation" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="logged_in_user_email" id="logged_in_user_email" value="{{logged_in_user.email}}">
+                <label for="email"> Associated Person Email: </label>
+                <input type="email" name="email" id="email">
+                <label for="status">What is your relationship to this person?</label>
+                <select name="status" id="status">
+                    <option value="1">Parent</option>
+                    <option value="2">Guardian Other than Parent</option>
+                    <option value="3">Student/Child</option>
+                    <option value="4">Sibling</option>
+                </select>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <table class="table">
+            <thead>
+                <td>#</td>
+                <td>Value</td>
+            </thead>
+            <tr>
+                <td>1</td>
+                <td>Parent</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Guardian, Other than Parent</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Student/Child</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Sibling</td>
+            </tr>
+        </table>
+        <table class="table">
+            <thead>
+                <td>From_User: Name</td>
+                <td>To_User: Name</td>
+                <td>Status of the two</td>
+            </thead>
+            {% for relationship in logged_in_user.from_users.all %}
+            <tr>
+                <td>{{relationship.from_user.first_name}} {{relationship.from_user.last_name}}</td>
+                <td>{{relationship.to_user.first_name}} {{relationship.to_user.last_name}}</td>
+                <td>{{relationship.status}}</td>
+            </tr>
+
+            {% endfor %}
+
+
+        </table>
+
+    </div>
+
+
+</body>
+</html>

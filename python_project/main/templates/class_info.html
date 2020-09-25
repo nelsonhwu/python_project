@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/class_info/style.css' %}" />
+    <title>All Classes</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
+        </div>
+        <div class="body">
+            <div class="body_left">
+                <a href="/user_homepage">Home</a>
+                <a href="/about_us">About Us</a>
+                <a href="/image/all">Project Showcase</a>
+                <a href="/class_info">Class Info</a>
+                <a href="/request_appointment">Request Appointment</a>
+                <a href="#">Helpful Links</a>
+            </div>
+            <div class="body_right">
+                <div class="image">
+                    <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+                </div>
+            </div>
+        </div>
+        <div class="lower_body">
+            <div class="bulletin">
+                <h4>All Classes:</h4>
+                {% if access_level != '5' %}
+                    {% for class in all_class %}
+                    <li><a href="/class/{{class.id}}" >{{class.subject}}</a></li>
+                    <p>Class Description: {{class.desc}}</p>
+                    {% endfor %}
+                {% else %}
+                    {% for class in all_class %}
+                        <li>{{class.subject}}</li>
+                        <p>Class Description: {{class.desc}}</p>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            
+            {% if user.access_level == 'teacher' %}
+            <h4>Create New Class:</h4>
+            <form action="/class/create" method="post">
+                {% csrf_token %}
+                
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        <label for="subject">Subject: </label>
+                        <input class="form-control" type="text" name="subject" id="subject">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="start_date">Start Date: </label>
+                        <input class="form-control" type="date" name="start_date" id="start_date">
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="end_date">End Date: </label>
+                        <input class="form-control" type="date" name="end_date" id="end_date">
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <label for="schedule_day">Schedule Day: </label>
+                        <select class="form-control" name="schedule_day" id="schedule_day">
+                            <option value="monday">Monday</option>
+                            <option value="tuesday">Tuesday</option>
+                            <option value="wednesday">Wednesday</option>
+                            <option value="thursday">Thursday</option>
+                            <option value="friday">Friday</option>
+                            <option value="saturday">Saturday</option>
+                            <option value="sunday">Sunday</option>
+                    </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="schedule_time">Schedule Time: </label>
+                        <input class="form-control" type="time" name="schedule_time" id="schedule_time" min="09:00" max="18:00">
+                    </div>
+                    
+                </div>
+                
+                <div class="form-group">
+                    <label for="desc">Description: </label>
+                    <textarea name="desc" id="desc" class="form-control" rows="3"></textarea>
+                </div>
+                <input class="btn btn-primary mb-2" type="submit" value="Create Class">
+            </form>
+            {% endif %}
+        </div>
+        <div class="contact_info">
+            <span id="com_name">Ace Art Academy</span>
+            <div id="com_ph_addr">
+                <span>100 Charming Ave </span>
+                <span>(916) 223-4586 </span>
+            </div>
+
+            <div id="com_e_med">
+                <span>AceArt@gmail.com </span>
+                <span style="margin-left: 10px;">Follow us on Facebook: #AceArt </span>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/project_edit/style.css' %}" />
+        <title>Edit Project</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <p><a href="/user_info">{{logged_user.first_name}}</a> | <a href="/logout">Logout</a></p>
+            </div>
+            <div class="body">
+                <div class="body_left">
+                    <a href="/user_homepage">Home</a>
+                    <a href="/about_us">About Us</a>
+                    <a href="/image/all">Project Showcase</a>
+                    <a href="/class_info">Class Info</a>
+                    <a href="/request_appointment">Request Appointment</a>
+                    <a href="#">Helpful Links</a>
+                </div>
+                <div class="body_right">
+                    <div class="image">
+                        <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin: 30px 0;" id="project_edit">
+                <form action="/process_edit_project/{{cur_proj.id}}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="title">Title: </label>
+                            <input class="form-control" type="text" name="title" id="title">
+                        </div>
+    
+                        <div class="col-md-4 mb-3">
+                            <label for="due_date">Deadline: </label>
+                            <input class="form-control" type="datetime-local" name="due_date" id="due_date">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="course">Choose a class for this project: </label>
+                            <select class="form-control" name="course" id="course">
+                                <option value="">Pick a Class</option>
+                                {% for course in all_classes %}
+                                <option value="{{course.id}}">{{course.subject}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <p for="desc">Description:</p>
+                        <textarea class="form-control" rows="3" name="desc" id="desc"></textarea>
+                    </div>
+
+                    <div>
+                        <input class="btn btn-primary mb-2" type="submit" name="submit" value="Update Project">
+                        <button class="btn btn-danger mb-2"><a style="color: white; text-decoration: none;" href="/project_detail/{{cur_proj.id}}">Cancle</a></button>
+                    </div>
+                </form>
+
+                <div id="message">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "edit_proj_err" in message.tags %}
+                            <li>{{message}}</li>
+                            {% endif %}
+                            {% if "success" in message.tags %}
+                            <li>{{message}}</li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                
+                
+            </div>
+
+            <div class="contact_info">
+                <span id="com_name">Ace Art Academy</span>
+                <div id="com_ph_addr">
+                    <span>100 Charming Ave </span>
+                    <span>(916) 223-4586 </span>
+                </div>
+
+                <div id="com_e_med">
+                    <span>AceArt@gmail.com </span>
+                    <span style="margin-left: 10px;">Follow us on Facebook: #AceArt </span>
+                </div>
+            </div>
+        </div> 
+    </body>
+</html>

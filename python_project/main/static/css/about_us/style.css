@@ -1,0 +1,102 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+
+.container{
+    width: 1024px;
+    height: 768px;
+    /* border: black solid 1px; */
+    border-top: rgb(199, 230, 243) solid 3px;
+    border-right: rgb(199, 230, 243) solid 3px;
+    background-image: linear-gradient(to bottom left, rgba(199, 230, 243), rgba(199, 230, 243, 0));
+}
+
+.body{
+    display: flex;
+    justify-content: space-between;
+    width: auto;
+}
+.body_left{
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: rgb(197, 197, 197) solid 1px;
+    /* background-image: linear-gradient(to bottom left, rgba(199, 230, 243), rgba(199, 230, 243, 0)); */
+    border-radius: 5px;
+    padding: 2px;
+    background-color: rgb(61, 56, 56);
+}
+.body_left a{
+    text-decoration: none;
+    font-weight: bold;
+    color: rgb(255, 255, 255);
+}
+.body_left a:hover{
+    color: rgb(248, 96, 90);
+}
+
+.body_left a:link{
+    /* border: black solid 1px; */
+    margin: 10px 5px;
+    padding: 2px;
+    font-size: small;
+    /* background-color: white; */
+    width: 150px;
+}
+
+.body_right{
+    border-radius: 5px;
+    padding: 2px;
+    width: 800px;
+}
+
+
+.image{
+    background-color: white;
+    /* border: black solid 5px; */
+    text-align: center;
+}
+.image img{
+    width: 250px;
+    height: 250px;
+    margin: 10px;
+}
+.lower_body{
+    font-size: small;
+    margin-top: 30px;
+}
+
+.lower_body h1, h4, p{
+    margin-top: 10px;
+    text-align: center;
+}
+
+.contact_info{
+    /* position: fixed; */
+    margin: 10px 0px 0px 0px;
+    width: auto;
+    font-size: small;
+    /* bottom: 5px; */
+}
+
+#com_ph_addr span{
+    margin-left: 10px;
+}
+
+#com_e_med{
+    margin-left: 10px;
+}
+
+#com_name{
+    /* border:  rgb(156, 156, 156) solid 1px; */
+    margin-left: 10px;
+    /* padding-left: 5px; */
+}
+
+.add_message{
+    margin: 5px 0px 0px 0px;
+}
+

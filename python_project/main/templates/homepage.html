@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homepage/style.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+    <title>Homepage</title>
+</head>
+<body>
+<div class="nav">
+        <p><a href="/about_us">About Us</a></p>
+        <p><a href="/image/all">Sample Art Work</a></p>
+        <p><a href="/class_info">Our Classes</a></p>
+        <p>Start Your Journey ( <a href="/register">Register</a> | <a href="/login">Login</a> )</p>
+    </div>
+
+
+    <img src="{% static 'img/basic_img.jpg' %}" alt="logo_img">
+
+    <div style="background-image: url({% static 'img/basic_img.jpg' %});" class="front"></div>
+    
+
+
+</body>
+</html>
+
+<script type="text/javascript">
+    let ft = document.getElementsByClassName("front")
+    let body = document.getElementsByTagName("body")
+    // console.log(ft);
+    // console.log(body)
+    // console.log(body[0].style.width)
+    window.onmousemove = function(e){
+        if (e.clientX <= 452){
+            ft[0].style.width = 848+"px";
+            
+        }else {
+            ft[0].style.width = 1300 - e.clientX + "px";
+            
+        }
+    }
+</script>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/class_detail/style.css' %}" />
+    <title>Class: {{this_class.subject}}</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
+        </div>
+        <div class="body">
+            <div class="body_left">
+                <a href="/user_homepage">Home</a>
+                <a href="/about_us">About Us</a>
+                <a href="/image/all">Project Showcase</a>
+                <a href="/class_info">Class Info</a>
+                <a href="/request_appointment">Request Appointment</a>
+                <a href="#">Helpful Links</a>
+            </div>
+            <div class="body_right">
+                <div class="image">
+                    <img src="{% static 'img/basic_img.jpg' %}" alt="img">
+                </div>
+            </div>
+        </div>
+        <div class="lower_body">
+            <div class="bulletin">
+                <h4>{{this_class.subject}}</h4>
+                <p>Class Description: {{this_class.desc}}</p>
+                <p>Class time: {{this_class.schedule_day}} at {{this_class.schedule_time}}</p>
+                <p>Start Date: {{this_class.start_date|date}}</p>
+                <p>End Date: {{this_class.end_date|date}}</p>
+            </div>
+        
+            {% if user.access_level == 'teacher' %}
+            <form action="/class/{{this_class.id}}/edit" method="post">
+                {% csrf_token %}
+                <input class="btn btn-primary mb-2" type="submit" value="Edit Class Information">
+            </form>
+            {% endif %}
+        </div>
+        <div id="projects">
+            <div id="assgin_proj_student">
+                <div class= "assgin">
+                    <h6>Assigned Projects:</h6>
+                    <div class="sub_assign">
+                        {% for project in this_class.project_classes.all %}
+                        <li><a href="/project_detail/{{project.id}}">{{project.title}}</a></li>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+                
+                <div class= "assgin">
+                    <h6>Students: </h6>
+                    <div class="sub_assign">
+                        {% for student in this_class.user.all %}
+                            <li><a href="#">{{student.first_name}} {{student.last_name}}</a></li>
+                        {% endfor %}
+                    </div>  
+                </div>
+            </div>
+            
+                
+                
+
+            {% if user.access_level == 'teacher' %}
+                <h4>Create New Project for Class:</h4>
+                <form action="/add_project/{{this_class.id}}" method="post">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="title">Project Name: </label>
+                            <input class="form-control" type="text" name="title" id="title">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="due_date">Project Due Date: </label>
+                            <input class="form-control" type="date" name="due_date" id="due_date">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="desc">Description: </label>
+                        <textarea name="desc" id="desc" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <input class="btn btn-primary mb-2" type="submit" value="Create Project">
+                </form>
+            {% endif %}
+            
+            {% if messages %}
+                <ul class="messages">    
+                {% for message in messages %}    
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div id="students">
+            
+            {% if user.access_level == 'teacher' %}
+                <h4 style="margin: 20px 0;">Add Student to class</h4>
+                
+                <form class="form-inline" action="/add_student/{{this_class.id}}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group mb-2">
+                        <select class="form-control" name="list_of_students" id="list_of_students">
+                        {% for user in all_user %}
+                        {% if user.access_level == 'student' and not user in this_class.user.all %}
+                            <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <input style="margin-left: 20px;" class="btn btn-primary mb-2" type="submit" value="Add Student">
+                    
+                    
+                </form>
+            {% endif %}
+
+            
+        </div>
+        
+        <div class="contact_info">
+            <span id="com_name">Ace Art Academy</span>
+            <div id="com_ph_addr">
+                <span>100 Charming Ave </span>
+                <span>(916) 223-4586 </span>
+            </div>
+
+            <div id="com_e_med">
+                <span>AceArt@gmail.com </span>
+                <span style="margin-left: 10px;">Follow us on Facebook: #AceArt </span>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
