@@ -160,8 +160,8 @@ class UserManager(models.Manager):
     
     def related_person_validator(self, post_data):
         errors={}
-        logged_in_user_email = post_data['logged_in_user_email']
-        if logged_in_user_email == post_data['email']:
+        logged_user_email = post_data['logged_user_email']
+        if logged_user_email == post_data['email']:
                 errors['email'] = "You cannot enter your own email"
         return errors
     

@@ -10,9 +10,10 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
-        </div>
+            <div class="header">
+                <p><a href="/user_info">{{user.first_name}}</a> | <a href="/logout">Logout</a></p>
+            </div>
+        
         <div class="body">
             <div class="body_left">
                 <a href="/user_homepage">Home</a>
@@ -32,47 +33,53 @@
         <div id="image_holder">
             <h3>{{this_image.title}}</h3>
             <img src="{{this_image.picture.url}}" alt="{{this_image.id}}"><br>
-            <a href="#">By: {{this_image.submitter.first_name}}</a>
+            <a style="font-size: 0.9rem;" href="#">By: {{this_image.submitter.first_name}}</a>
         </div>
-        <div id="wall">
+        <div style="margin: 20px 0;" id="wall">
             <form action="/image/{{this_image.id}}/add_message" method="POST">
                 {% csrf_token %}
-                <label for="message">Post a Message</label><br>
-                <textarea name="message" id="message" cols="50" rows="10"></textarea><br>
-                <button type="submit">Post a message</button>
+                <div class="form-group">
+                    <label for="message">Message: </label><br>
+                    <textarea name="message" id="message" class="form-control" rows="3"></textarea>
+                </div>
+                <button class="btn btn-primary mb-2" type="submit">Post a message</button>
             </form>
             
             
             {% for message in all_messages %}
+            <div style=" margin: 20px 0; border-radius: 5px; border: 1px gray solid; padding: 20px;">
                 {% if message.image_comment.id == this_image.id %}
-                <h3>{{message.user.first_name}} {{message.user.last_name}} -- {{message.created_at}}</h3>
-                <p>{{ message.message }}</p>
+                    <h5>{{message.user.first_name}} {{message.user.last_name}} -- {{message.created_at}}</h5>
+                    <p style="margin-left: 20px;">{{ message.message }}</p>
         
-                {% if message.user.id == request.session.user_id or user.access_level == 'teacher' %}
-                <form action="/image/{{this_image.id}}/delete/{{message.id}}">
+                    {% if message.user.id == request.session.user_id or user.access_level == 'teacher' %}
+                    <form action="/image/{{this_image.id}}/delete/{{message.id}}">
                     {% csrf_token %}
-                    <button type="submit">Delete</button>
-                </form>
-                {% endif %}
-        
-                <h4>Comments:</h4>
-                {% for comment in all_comments %}
-                    {% if comment.message.id == message.id %}
-                        <h5>{{comment.user.first_name}} {{comment.user.last_name}} -- {{comment.created_at}}</h5>
-                        <p>{{comment.comment}}</p>
+                        <button class="btn btn-danger btn-sm" type="submit">Delete This Message</button>
+                    </form>
                     {% endif %}
-                {% endfor %}
+                <div style=" margin: 20px 0; border-radius: 5px; border: 1px gray solid; padding: 20px;">
+                    <h6 style="font-weight: bolder;">Comments:</h6>
+                    {% for comment in all_comments %}
+                        {% if comment.message.id == message.id %}
+                            <p style=" font-size: 0.8rem; font-weight: bold; margin-left:20px;">{{comment.user.first_name}} {{comment.user.last_name}} -- {{comment.created_at}}</p>
+                            <p style="font-size:0.8rem; margin-left:40px;">{{comment.comment}}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                
         
                 <form action="/image/{{this_image.id}}/add_comment" method="POST">
                     {% csrf_token %}
                     <label for="comment">Post a comment</label><br>
                     <input type="hidden" value="{{message.id}}" name='message_id'>
-                    <textarea name="comment" id="comment" cols="50" rows="2"></textarea><br>
-                    <button type="submit">Post a comment</button>
+                    <textarea name="comment" id="comment" class="form-control" rows="2" ></textarea><br>
+                    <button class="btn btn-success btn-sm"  type="submit">Post a comment</button>
                 </form>
                 {% endif %}
+
+            </div>
             {% endfor %}
-            
         </div>
 
         <div class="contact_info">

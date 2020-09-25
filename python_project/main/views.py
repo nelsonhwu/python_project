@@ -299,26 +299,23 @@ def delete_message(request, image_id, message_id): #2:15
 def add_relation(request):
     if 'user_id' not in request.session:
         return('/')
-    logged_in_user = User.objects.get(id=request.session['user_id'])
+    logged_user = User.objects.get(id=request.session['user_id'])
     errors = User.objects.related_person_validator(request.POST)
     if len(errors) > 0:
         for msg in errors.values():
             messages.error(request, msg)
-        return redirect("/success")        
+        return redirect("/user_homepage")        
     list_of_users = User.objects.filter(email=request.POST['email'])
-    print("Working Here1")
     if len(list_of_users) > 0:
         person_to_add = list_of_users[0]
-        print("%"*60)
-        print(person_to_add)
         Relationship.objects.create(
-            from_user=logged_in_user,
+            from_user=logged_user,
             to_user=person_to_add,
             status=request.POST['status']
         )
-        return redirect("/success")
+        return redirect("/user_homepage")
     else:
-        return redirect("/success")
+        return redirect("/user_homepage")
 
 def add_bulletin(request):
     bulletin = request.POST['bulletin']

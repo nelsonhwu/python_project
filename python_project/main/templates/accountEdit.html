@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Edit User</title>
     </head>
     <body>
         <div id="navbar">
@@ -11,7 +10,6 @@
         </div>
 
         <div id="rightcontent">
-            
             <p><a href="/logout">Log out</a></p>
             
             <div>
@@ -124,11 +122,6 @@
                 </div>
 
                 <div>
-                    <label for="related_user">Put in your parent's User ID: </label>
-                    <input type="text" name="related_user" id="related_user">
-                </div>
-
-                <div>
                     <label for="password">New Password: </label>
                     <input type="password" name="password" id="password">
                 </div>
@@ -139,10 +132,27 @@
                 </div>
 
                 <input type="submit" name="submit" id="submit" value="Update">
-                <button><a href="/user_info">Cancle</a></button>
+                <button><a href="/user_info">Cancel</a></button>
             </form>
         </div>
-        
+
+            {% if logged_user.access_level == "parent" %}
+            <form action="/add_relation" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="logged_user_email" id="logged_user_email" value="{{logged_user.email}}">
+                <label for="email"> Want to associate with another user? Associated Person Email: </label>
+                <input type="email" name="email" id="email">
+                <label for="status">What is your relationship to this person?</label>
+                <select name="status" id="status">
+                    <option value="1">Parent</option>
+                    <option value="2">Guardian Other than Parent</option>
+                    <option value="3">Student/Child</option>
+                    <option value="4">Sibling</option>
+                </select>
+                <input type="submit" value="Submit">
+            </form>
+            {% endif %}
+
         <div id="message">
             {% if messages %}
                 {% for message in messages %}

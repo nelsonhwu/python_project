@@ -45,25 +45,52 @@
             {% endif %}
         </div>
         <div id="projects">
-            <h3>Assigned Projects:</h3>
-            <ul>
-                {% for project in this_class.project_classes.all %}
-                    <li><a href="/project_detail/{{project.id}}">{{project.title}}</a></li>
-                {% endfor %}
-
-            </ul>
+            <div id="assgin_proj_student">
+                <div class= "assgin">
+                    <h6>Assigned Projects:</h6>
+                    <div class="sub_assign">
+                        {% for project in this_class.project_classes.all %}
+                        <li><a href="/project_detail/{{project.id}}">{{project.title}}</a></li>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+                
+                <div class= "assgin">
+                    <h6>Students: </h6>
+                    <div class="sub_assign">
+                        {% for student in this_class.user.all %}
+                            <li><a href="#">{{student.first_name}} {{student.last_name}}</a></li>
+                        {% endfor %}
+                    </div>  
+                </div>
+            </div>
+            
+                
+                
 
             {% if user.access_level == 'teacher' %}
-                <p>Create New Project for Class:</p>
+                <h4>Create New Project for Class:</h4>
                 <form action="/add_project/{{this_class.id}}" method="post">
                     {% csrf_token %}
-                    <label for="title">Project Name: </label>
-                    <input type="text" name="title" id="title"><br>
-                    <label for="due_date">Project Due Date: </label>
-                    <input type="date" name="due_date" id="due_date"><br>
-                    <label for="desc">Description: </label>
-                    <textarea name="desc" id="desc" cols="30" rows="10"></textarea>
-                    <input type="submit" value="Create Project">
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="title">Project Name: </label>
+                            <input class="form-control" type="text" name="title" id="title">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="due_date">Project Due Date: </label>
+                            <input class="form-control" type="date" name="due_date" id="due_date">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="desc">Description: </label>
+                        <textarea name="desc" id="desc" class="form-control" rows="3"></textarea>
+                    </div>
+
+                    <input class="btn btn-primary mb-2" type="submit" value="Create Project">
                 </form>
             {% endif %}
             
@@ -75,26 +102,27 @@
                 </ul>
             {% endif %}
         </div>
+
         <div id="students">
-            <h3>Students: </h3>
-            <ul>
-            {% for student in this_class.user.all %}
-                    <li><a href="#">{{student.first_name}} {{student.last_name}}</a></li>
-            {% endfor %}
-            </ul>
+            
             {% if user.access_level == 'teacher' %}
-                <p>Add Student to class</p>
+                <h4 style="margin: 20px 0;">Add Student to class</h4>
                 
-                <form action="/add_student/{{this_class.id}}" method="post">
+                <form class="form-inline" action="/add_student/{{this_class.id}}" method="post">
                     {% csrf_token %}
-                    <select name="list_of_students" id="list_of_students">
+                    <div class="form-group mb-2">
+                        <select class="form-control" name="list_of_students" id="list_of_students">
                         {% for user in all_user %}
                         {% if user.access_level == 'student' and not user in this_class.user.all %}
                             <option value="{{user.id}}">{{user.first_name}} {{user.last_name}}</option>
                         {% endif %}
                         {% endfor %}
-                    </select>
-                    <input type="submit" value="Add Student">
+                        </select>
+                    </div>
+                    
+                    <input style="margin-left: 20px;" class="btn btn-primary mb-2" type="submit" value="Add Student">
+                    
+                    
                 </form>
             {% endif %}
 
