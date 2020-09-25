@@ -1,0 +1,37 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    margin: 0px auto;
+    padding: 0px;
+    width: 1024px;
+    height: 768px;
+    background-image: linear-gradient(#e5c5c5,#b2b2b2);
+}
+.nav{
+    display: flex;
+    justify-content: end;
+}
+.body{
+    text-align: left;
+}
+.body_info{
+/*     border: black solid 1px; */
+    margin: auto;
+    padding: 10px;
+    width: 50%;
+}
+ul{
+    list-style: none;
+}
+.image{
+    padding: 10px 0px;
+    display: flex;
+    justify-content: center;
+    width: 700px;
+}
+img {
+    width: 150px;
+    height: auto;
+}

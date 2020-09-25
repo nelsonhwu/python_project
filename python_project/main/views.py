@@ -192,7 +192,7 @@ def log_in(request): #2:15
             context = {
                 'user' : user,
             }
-            return redirect("/success")
+            return redirect("/user_homepage")
         else:
             context = {
                 'errors' : "Please check your password and try again."
@@ -207,12 +207,12 @@ def log_in(request): #2:15
 def success(request): #2:15
     if 'user_id' not in request.session:
         return redirect('/')
-    logged_in_user = User.objects.get(id=request.session['user_id'])
+    user = User.objects.get(id=request.session['user_id'])
 
     all_relationships = Relationship.objects.all()
     all_classes = Class.objects.all()
     context = {
-        'logged_in_user' : logged_in_user,
+        'user' : user,
         'all_relationships' : all_relationships,
         'all_classes' : all_classes,
     }
@@ -224,8 +224,10 @@ def logout(request): #2:15
 
 def user(request):
     logged_in_user = User.objects.get(id=request.session['user_id'])
+    all_relationships = Relationship.objects.all()
     context = {
-        'logged_in_user':logged_in_user,
+        'logged_in_user': logged_in_user,
+        'all_relationships' : all_relationships,
     }
     return render(request, 'user_info.html',context)
 
@@ -282,26 +284,23 @@ def delete_message(request, image_id, message_id): #2:15
 def add_relation(request):
     if 'user_id' not in request.session:
         return('/')
-    logged_in_user = User.objects.get(id=request.session['user_id'])
+    logged_user = User.objects.get(id=request.session['user_id'])
     errors = User.objects.related_person_validator(request.POST)
     if len(errors) > 0:
         for msg in errors.values():
             messages.error(request, msg)
-        return redirect("/success")        
+        return redirect("/user_homepage")        
     list_of_users = User.objects.filter(email=request.POST['email'])
-    print("Working Here1")
     if len(list_of_users) > 0:
         person_to_add = list_of_users[0]
-        print("%"*60)
-        print(person_to_add)
         Relationship.objects.create(
-            from_user=logged_in_user,
+            from_user=logged_user,
             to_user=person_to_add,
             status=request.POST['status']
         )
-        return redirect("/success")
+        return redirect("/user_homepage")
     else:
-        return redirect("/success")
+        return redirect("/user_homepage")
 
 def add_bulletin(request):
     bulletin = request.POST['bulletin']

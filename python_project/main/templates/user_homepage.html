@@ -46,7 +46,7 @@
         </div>
         
         <div class="lower_body_right">
-            <div class="bulletin">
+{% comment %}             <div class="bulletin">
                 <h4>Bulletin Board:</h4>
                 {% for bulletin in all_bulletin reversed %}
                     <li>{{bulletin.bulletin}} - {{bulletin.created_at}}</li>
@@ -57,7 +57,7 @@
                         </form>
                     {% endif %}
                 {% endfor %}
-            </div>
+            </div> {% endcomment %}
             
             {% if user.access_level == "teacher" %}
                 <div class="bulletin_text">
