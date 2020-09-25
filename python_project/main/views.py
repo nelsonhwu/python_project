@@ -233,8 +233,10 @@ def logout(request): #2:15
 
 def user(request):
     logged_in_user = User.objects.get(id=request.session['user_id'])
+    all_relationships = Relationship.objects.all()
     context = {
         'logged_in_user':logged_in_user,
+        'all_relationships': all_relationships
     }
     return render(request, 'user_info.html',context)
 
@@ -304,7 +306,7 @@ def add_relation(request):
     if len(errors) > 0:
         for msg in errors.values():
             messages.error(request, msg)
-        return redirect("/user_homepage")        
+        return redirect("/user_info")        
     list_of_users = User.objects.filter(email=request.POST['email'])
     if len(list_of_users) > 0:
         person_to_add = list_of_users[0]
@@ -313,9 +315,9 @@ def add_relation(request):
             to_user=person_to_add,
             status=request.POST['status']
         )
-        return redirect("/user_homepage")
+        return redirect("/user_info")
     else:
-        return redirect("/user_homepage")
+        return redirect("/user_info")
 
 def add_bulletin(request):
     bulletin = request.POST['bulletin']

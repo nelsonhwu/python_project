@@ -52,6 +52,8 @@ class UserManager(models.Manager):
 
     def login_validation(self, post_data):
         errors = {}
+        NAME_REGEX = re.compile(r'^[a-zA-Z]')
+        PHONE_REGEX = re.compile(r'^\+?1?\d{9,15}$')
         EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if not EMAIL_REGEX.match(post_data['email']):
             errors['invalid_email'] = 'Invalid email! Try Again!'
@@ -88,6 +90,9 @@ class UserManager(models.Manager):
 
     def edit_account_validation(self, post_data):
         errors={}
+        NAME_REGEX = re.compile(r'^[a-zA-Z]')
+        EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
+        PHONE_REGEX = re.compile(r'^\+?1?\d{9,15}$')
         if len(post_data['first_name']) != 0 and len(post_data['first_name']) < 2:
             errors['first_name'] = 'First name needs at least 2 characters.'
         if len(post_data['first_name']) != 0 and not NAME_REGEX.match(post_data['first_name']):
