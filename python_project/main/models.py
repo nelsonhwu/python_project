@@ -109,7 +109,7 @@ class UserManager(models.Manager):
         
         if len(post_data['street_address']) != 0 and len(post_data['street_address']) < 2:
             errors['street_address'] = 'Your address needs at least 2 characters.'
-        if len(post_data['street_address']) != 0 and not ADDRESS_REGEX.match(post_data['street_address']):
+        if len(post_data['street_address']) != 0:
             errors['invalid_street_address'] =  'Please enter a valid Address.'
         
         if len(post_data['city']) != 0 and len(post_data['city']) < 2:
@@ -190,10 +190,10 @@ class User(models.Model):
         return self.first_name + " " + self.last_name
     
 RELATIONSHIP_GUARDIAN = 1
-RELATIONSHIP_STUDENT = 2
+RELATIONSHIP_CHILD = 2
 RELATIONSHIP_STATUSES = (
     (RELATIONSHIP_GUARDIAN, 'Guardian'),
-    (RELATIONSHIP_STUDENT, 'Student'),
+    (RELATIONSHIP_CHILD, 'Child'),
 )
 
 class Relationship(models.Model):

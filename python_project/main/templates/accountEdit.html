@@ -140,15 +140,9 @@
             <form action="/add_relation" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="logged_user_email" id="logged_user_email" value="{{logged_user.email}}">
-                <label for="email"> Want to associate with another user? Associated Person Email: </label>
+                <label for="email"> What is the associated account's Email? : </label>
                 <input type="email" name="email" id="email">
-                <label for="status">What is your relationship to this person?</label>
-                <select name="status" id="status">
-                    <option value="1">Parent</option>
-                    <option value="2">Guardian Other than Parent</option>
-                    <option value="3">Student/Child</option>
-                    <option value="4">Sibling</option>
-                </select>
+                <input type="hidden" name="status" id="status" value="1">
                 <input type="submit" value="Submit">
             </form>
             {% endif %}

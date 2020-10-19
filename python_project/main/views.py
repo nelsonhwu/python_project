@@ -234,7 +234,7 @@ def image_block(request): #2:15
     }
     return render(request, 'images.html', context)
 
-def image_viewer(request, image_id): #2:15
+def image_viewer(request, image_id):
     current_image = Image.objects.get(id=image_id)
     logged_in_user = User.objects.get(id=request.session['user_id'])
     context={
@@ -246,7 +246,7 @@ def image_viewer(request, image_id): #2:15
 
     return render(request, 'viewer.html', context)
 
-def add_message(request, image_id): #2:15
+def add_message(request, image_id):
     message = request.POST['message']
     Message.objects.create(
         message = message, 
@@ -255,14 +255,14 @@ def add_message(request, image_id): #2:15
         )
     return redirect(f'/image/{image_id}')
 
-def add_comment(request, image_id): #2:15
+def add_comment(request, image_id):
     comment = request.POST['comment']
     user = User.objects.get(id=request.session['user_id'])
     message_id = request.POST['message_id']
     Comment.objects.create(comment = comment, message=Message.objects.get(id= message_id), user = user)
     return redirect(f'/image/{image_id}')
 
-def delete_message(request, image_id, message_id): #2:15
+def delete_message(request, image_id, message_id):
     message = Message.objects.get(id=message_id)
     message.delete()
     return redirect(f'/image/{image_id}')
@@ -275,7 +275,8 @@ def add_relation(request):
     if len(errors) > 0:
         for msg in errors.values():
             messages.error(request, msg)
-        return redirect("/success")        
+        return redirect("/success")
+
     list_of_users = User.objects.filter(email=request.POST['email'])
     print("Working Here1")
     if len(list_of_users) > 0:
@@ -285,7 +286,12 @@ def add_relation(request):
         Relationship.objects.create(
             from_user=logged_in_user,
             to_user=person_to_add,
-            status=request.POST['status']
+            status="status",
+        )
+        Relationship.objects.create(
+            from_user=person_to_add,
+            to_user=logged_in_user,
+            status=2,
         )
         return redirect("/success")
     else:
