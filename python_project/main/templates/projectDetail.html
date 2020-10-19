@@ -65,7 +65,6 @@
                     {% endif %}
                 </div>
 
-                {% if logged_user.access_level != "student"  %}
                 <form action="/process_upload/{{cur_proj.id}}" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-row"> 
@@ -82,7 +81,7 @@
                     <input type="hidden" name="submitter" value="{{logged_user.id}}">
                     <input class="btn btn-primary mb-2" type="submit" name="submit" id="submit" value="Submit">
                 </form>
-                {% endif %}
+
             </div>
 
             <div class="contact_info">

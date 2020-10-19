@@ -93,19 +93,11 @@ def edit_class(request, class_id):
     return render(request, 'edit_class.html', context)
 
 def all_class(request):
-    if "user_id" in request.session:
-        context={
-            'user': User.objects.get(id=request.session['user_id']),
-            'all_class' : Class.objects.all(),
-            'request_session': request.session['user_id'],
-        }
-        return render(request, 'class_info.html', context)
-    else:
-        context={
-            'all_class' : Class.objects.all(),
-            'access_level': '5',
-        }
-        return render(request, 'class_info.html', context)
+    context={
+        'user': User.objects.get(id=request.session['user_id']),
+        'all_class' : Class.objects.all()
+    }
+    return render(request, 'class_info.html', context)
 
 def edit_class_post(request, class_id):
     errors = User.objects.update_class_validation(request.POST)
@@ -167,32 +159,18 @@ def add_user(request): #2:15
     password = request.POST['password']
     pw_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode()
 
-    if len(request.POST['phone']) > 0:
-        new_user = User.objects.create(
-            first_name = request.POST['first_name'],
-            last_name = request.POST['last_name'],
-            email = request.POST['email'],
-            password = pw_hash,
-            street_address = request.POST['street_address'],
-            city = request.POST['city'],
-            state = request.POST['state'],
-            zip_code = request.POST['zip_code'],
-            phone = request.POST['phone'],
-            access_level = request.POST['access_level']
-        )
-    else: 
-        new_user = User.objects.create(
-            first_name = request.POST['first_name'],
-            last_name = request.POST['last_name'],
-            email = request.POST['email'],
-            password = pw_hash,
-            street_address = request.POST['street_address'],
-            city = request.POST['city'],
-            state = request.POST['state'],
-            zip_code = request.POST['zip_code'],
-            access_level = request.POST['access_level']
-        )
-    
+    new_user = User.objects.create(
+        first_name = request.POST['first_name'],
+        last_name = request.POST['last_name'],
+        email = request.POST['email'],
+        password = pw_hash,
+        street_address = request.POST['street_address'],
+        city = request.POST['city'],
+        state = request.POST['state'],
+        zip_code = request.POST['zip_code'],
+        phone = request.POST['phone'],
+        access_level = request.POST['access_level']
+    )
     request.session['user_id'] = new_user.id
     return redirect('/user_homepage')
 
@@ -213,19 +191,19 @@ def log_in(request): #2:15
             return redirect('/user_homepage')
     return redirect('/')
 
-# def success(request): #2:15
-#     if 'user_id' not in request.session:
-#         return redirect('/')
-#     logged_in_user = User.objects.get(id=request.session['user_id'])
+def success(request): #2:15
+    if 'user_id' not in request.session:
+        return redirect('/')
+    logged_in_user = User.objects.get(id=request.session['user_id'])
 
-#     all_relationships = Relationship.objects.all()
-#     all_classes = Class.objects.all()
-#     context = {
-#         'logged_in_user' : logged_in_user,
-#         'all_relationships' : all_relationships,
-#         'all_classes' : all_classes,
-#     }
-#     return render(request, "user_homepage.html", context)
+    all_relationships = Relationship.objects.all()
+    all_classes = Class.objects.all()
+    context = {
+        'logged_in_user' : logged_in_user,
+        'all_relationships' : all_relationships,
+        'all_classes' : all_classes,
+    }
+    return render(request, "user_homepage.html", context)
 
 def logout(request): #2:15
     request.session.clear()
@@ -233,10 +211,8 @@ def logout(request): #2:15
 
 def user(request):
     logged_in_user = User.objects.get(id=request.session['user_id'])
-    all_relationships = Relationship.objects.all()
     context = {
         'logged_in_user':logged_in_user,
-        'all_relationships': all_relationships
     }
     return render(request, 'user_info.html',context)
 
@@ -253,17 +229,10 @@ def user_homepage(request):
     return render(request, "user_homepage.html", context)
 
 def image_block(request): #2:15
-    if "user_id" in request.session:
-        context = {
-            'all_images': Image.objects.all()
-        }
-        return render(request, 'images.html', context)
-    else:
-        context={
-            'all_images': Image.objects.all(),
-            'access_level': '5',
-        }
-        return render(request, 'images.html', context)
+    context = {
+        'all_images': Image.objects.all()
+    }
+    return render(request, 'images.html', context)
 
 def image_viewer(request, image_id): #2:15
     current_image = Image.objects.get(id=image_id)
@@ -301,23 +270,26 @@ def delete_message(request, image_id, message_id): #2:15
 def add_relation(request):
     if 'user_id' not in request.session:
         return('/')
-    logged_user = User.objects.get(id=request.session['user_id'])
+    logged_in_user = User.objects.get(id=request.session['user_id'])
     errors = User.objects.related_person_validator(request.POST)
     if len(errors) > 0:
         for msg in errors.values():
             messages.error(request, msg)
-        return redirect("/user_info")        
+        return redirect("/success")        
     list_of_users = User.objects.filter(email=request.POST['email'])
+    print("Working Here1")
     if len(list_of_users) > 0:
         person_to_add = list_of_users[0]
+        print("%"*60)
+        print(person_to_add)
         Relationship.objects.create(
-            from_user=logged_user,
+            from_user=logged_in_user,
             to_user=person_to_add,
             status=request.POST['status']
         )
-        return redirect("/user_info")
+        return redirect("/success")
     else:
-        return redirect("/user_info")
+        return redirect("/success")
 
 def add_bulletin(request):
     bulletin = request.POST['bulletin']

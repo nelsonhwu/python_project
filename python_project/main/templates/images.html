@@ -27,19 +27,9 @@
         </div>
         <div id="image">
             {% for image in all_images %}
-                {% if access_level != '5' %}
-                    <div>
-                        <a href="/image/{{image.id}}"><img width="200" height="200" src="{{image.picture.url}}" alt="Project_Image"></a>
-                        <p><a href="/image/{{image.id}}">{{image.title}}</a></p>
-                        <p><a href="#">By: {{image.submitter.first_name}}</a><br></p>
-                    </div>
-                {% else %}
-                    <div>
-                        <img width="200" height="200" src="{{image.picture.url}}" alt="Project_Image">
-                        <p>{{image.title}}</p>
-                        <p>By: {{image.submitter.first_name}}<br></p>
-                    </div>
-                {% endif %}
+                <a href="/image/{{image.id}}"><img width="200" height="200" src="{{image.picture.url}}" alt="Project_Image"></a>
+                <p><a href="/image/{{image.id}}">{{image.title}}</a></p>
+                <p><a href="#">By: {{image.submitter.first_name}}</a><br></p>
             {% endfor %}
         </div>
 
