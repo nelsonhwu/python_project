@@ -5,12 +5,12 @@
 }
 body{
     position: relative;
+    
 }
 
 img{
     width: 855px;
     height: 697px;
-    filter: grayscale(100%);
     margin: auto;
     display:block;
     /* border: 1px solid black; */
@@ -18,14 +18,13 @@ img{
 
 .front{
     /* border: 1px solid black; */
-    position: absolute;
-    width: 848px;
-    height: 688px;
-    left: 344px;
-    /* right: 338px; */
+    position: relative;
+    /* width: 848px; */
+    /* height: 688px; */
+    display: flex;
     top: 52px;
     background-repeat: no-repeat;
-    background-size: 848px, 688px;
+    /* background-size: 848px, 688px; */
 }
 
 
